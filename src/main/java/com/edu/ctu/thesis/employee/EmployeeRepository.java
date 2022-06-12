@@ -1,6 +1,6 @@
-package com.edu.ctu.thesis.repositories;
+package com.edu.ctu.thesis.employee;
 
-import com.edu.ctu.thesis.entities.Employee;
+import com.edu.ctu.thesis.employee.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

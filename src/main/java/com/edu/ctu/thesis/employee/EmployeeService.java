@@ -1,8 +1,8 @@
-package com.edu.ctu.thesis.services;
+package com.edu.ctu.thesis.employee;
 
-import com.edu.ctu.thesis.entities.Employee;
+import com.edu.ctu.thesis.employee.Employee;
 import com.edu.ctu.thesis.exceptions.EmployeeException;
-import com.edu.ctu.thesis.repositories.EmployeeRepository;
+import com.edu.ctu.thesis.employee.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

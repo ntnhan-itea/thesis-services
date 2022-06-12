@@ -1,4 +1,4 @@
-package com.edu.ctu.thesis.entities;
+package com.edu.ctu.thesis.employee;
 
 
 import lombok.Data;

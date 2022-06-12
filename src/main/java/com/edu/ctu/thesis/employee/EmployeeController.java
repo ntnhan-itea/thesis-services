@@ -1,8 +1,6 @@
-package com.edu.ctu.thesis.controllers;
+package com.edu.ctu.thesis.employee;
 
-import com.edu.ctu.thesis.entities.Employee;
 import com.edu.ctu.thesis.exceptions.EmployeeException;
-import com.edu.ctu.thesis.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -13,7 +11,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/employee")
+@RequestMapping(value = "/api/employee")
+@CrossOrigin
 public class EmployeeController {
 
     @Autowired
