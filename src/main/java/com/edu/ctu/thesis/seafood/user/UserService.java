@@ -3,6 +3,8 @@ package com.edu.ctu.thesis.seafood.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
+
 @Service
 public class UserService {
     
@@ -10,6 +12,8 @@ public class UserService {
     UserRepository userRepository;
 
     public User createUser(User user) {
+        TraiNuoi traiNuoi = user.getTraiNuoi();
+        traiNuoi.setUser(user);
         return this.userRepository.save(user);
     }
 
