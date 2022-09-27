@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -38,6 +40,23 @@ public class UserResource {
     @PostMapping(path = "login")
     public ResponseEntity<?> getUser(@RequestBody User user) {
         try {
+            log.info("Getting user [{}] ...", user.toString());
+            User userInDB = this.userService.getUser(user);
+            log.info("Got user successfully: [{}] ...", userInDB.getUsername());
+            return ResponseEntity.ok(userInDB);
+        } catch (Exception e) {
+            log.error("Cannot create new user: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<?> getUser(@RequestParam("username") String username, @RequestParam("password") String password) {
+        try {
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(password);
+
             log.info("Getting user [{}] ...", user.toString());
             User userInDB = this.userService.getUser(user);
             log.info("Got user successfully: [{}] ...", userInDB.getUsername());
