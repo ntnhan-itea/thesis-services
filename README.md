@@ -7,3 +7,7 @@
     - Database: thesis-db
     - Username: admin
     - Password: 123
+
+# Step 3: in project
+    + `mvn clean install`
+    + `mvn spring-boot:run`
