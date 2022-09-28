@@ -1,6 +1,5 @@
 package com.edu.ctu.thesis.seafood.user;
 
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,7 @@ public class UserResource {
     }
 
     @PostMapping(path = "login")
-    public ResponseEntity<?> getUser(@RequestBody User user) {
+    public ResponseEntity<?> getUser(@Valid @RequestBody User user) {
         try {
             log.info("Getting user [{}] ...", user.toString());
             User userInDB = this.userService.getUser(user);
@@ -53,8 +52,10 @@ public class UserResource {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<?> getUser(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public ResponseEntity<?> getUser(@RequestParam("username") String username,
+            @RequestParam("password") String password) {
         try {
+
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);

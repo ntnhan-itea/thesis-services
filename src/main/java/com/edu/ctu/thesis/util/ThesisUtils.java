@@ -1,9 +1,8 @@
 package com.edu.ctu.thesis.util;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
-
 import java.util.Base64;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class ThesisUtils {
 
