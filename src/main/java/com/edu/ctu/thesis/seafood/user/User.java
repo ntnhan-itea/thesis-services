@@ -5,12 +5,12 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -32,9 +32,11 @@ public class User implements Serializable {
     private Long id;
 
     @Column(name = "username", nullable = false, unique = true, length = 30)
+    @NotBlank(message = "Username should not be blank")
     private String username;
 
     @Column(name = "password", nullable = false)
+    @NotBlank(message = "Password should not be blank")
     private String password;
 
     @Column(name = "full_name", nullable = false)

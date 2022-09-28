@@ -1,6 +1,8 @@
 package com.edu.ctu.thesis.seafood.user;
 
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,7 @@ public class UserResource {
     UserService userService;
 
     @PostMapping(path = "create")
-    public ResponseEntity<?> createUser(@RequestBody User user) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
         try {
             log.info("Creating new user [{}] ...", user.toString());
             User createdUser = this.userService.createUser(user);
