@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.audit.AuditListener;
@@ -57,13 +58,24 @@ public class TraiNuoi extends Validity {
     private String doiTuoiNuoi;
 
     @Column(name = "dien_tich_nuoi")
-    private float dienTichNuoi;
+    private Float dienTichNuoi;
 
     @OneToOne(mappedBy = "traiNuoi", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @NotNull(message = "User should not be null")
     private User user;
 
     @Embedded
     @JsonIgnore
     private Audit audit;
+
+    public void copy(TraiNuoi traiNuoi) {
+        this.tenTraiNuoi = traiNuoi.tenTraiNuoi;
+        this.diaChi = traiNuoi.diaChi;
+        this.dienThoai = traiNuoi.dienThoai;
+        this.hinhThucNuoi = traiNuoi.hinhThucNuoi;
+        this.doiTuoiNuoi = traiNuoi.doiTuoiNuoi;
+        this.dienTichNuoi = traiNuoi.dienTichNuoi;
+        this.user.setFullName(traiNuoi.user.getFullName());
+    }
 
 }

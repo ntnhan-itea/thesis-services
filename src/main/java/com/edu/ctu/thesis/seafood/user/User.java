@@ -58,6 +58,8 @@ public class User {
     @JoinColumn(name = "trai_nuoi_id", nullable = false)
     private TraiNuoi traiNuoi;
 
+    
+
     // @PrePersist
     // public void logNewUserAttempt() {
     // if(this.audit == null) {
