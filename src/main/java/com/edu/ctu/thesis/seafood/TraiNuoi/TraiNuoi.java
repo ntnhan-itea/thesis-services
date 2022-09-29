@@ -1,24 +1,28 @@
 package com.edu.ctu.thesis.seafood.TraiNuoi;
 
-import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
+import com.edu.ctu.thesis.audit.Audit;
+import com.edu.ctu.thesis.audit.AuditListener;
 import com.edu.ctu.thesis.seafood.user.User;
+import com.edu.ctu.thesis.seafood.valididy.Validity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -27,16 +31,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TraiNuoi implements Serializable {
+@EntityListeners(AuditListener.class)
+@EqualsAndHashCode(callSuper = false, of = {"id", "user"})
+public class TraiNuoi extends Validity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "ten_trai_nuoi", nullable = false)
+    @NotBlank(message = "Ten trai nuoi khong duoc phep bo trong")
     private String tenTraiNuoi;
 
     @Column(name = "dia_chi", nullable = false)
+    @NotBlank(message = "Dia chi trai nuoi khong duoc phep bo trong")
     private String diaChi;
 
     @Column(name = "dien_thoai")
@@ -51,10 +59,11 @@ public class TraiNuoi implements Serializable {
     @Column(name = "dien_tich_nuoi")
     private float dienTichNuoi;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    @MapsId
-    @JsonIgnore
+    @OneToOne(mappedBy = "traiNuoi", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User user;
+
+    @Embedded
+    @JsonIgnore
+    private Audit audit;
 
 }

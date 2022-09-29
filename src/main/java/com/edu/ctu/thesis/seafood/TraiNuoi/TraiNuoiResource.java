@@ -1,12 +1,21 @@
 package com.edu.ctu.thesis.seafood.TraiNuoi;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.edu.ctu.thesis.seafood.user.User;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -19,7 +28,8 @@ public class TraiNuoiResource {
     @Autowired
     TraiNuoiService traiNuoiService;
 
-    public ResponseEntity<?> creatTraiNuoi(TraiNuoi traiNuoi) {
+    @PostMapping(path = "create")
+    public ResponseEntity<?> creatTraiNuoi(@Valid @RequestBody TraiNuoi traiNuoi) {
         try {
             log.info("Creating new trai nuoi [{}] ...", traiNuoi.toString());
             TraiNuoi createdTraiNuoi = this.traiNuoiService.createTraiNuoi(traiNuoi);
@@ -27,6 +37,44 @@ public class TraiNuoiResource {
             return ResponseEntity.ok(createdTraiNuoi);
         } catch (Exception e) {
             log.error("Cannot create new trai nuoi: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PostMapping(path = "login")
+    public ResponseEntity<?> getTraiNuoi(@Valid @RequestBody User user) {
+        try {
+
+            TraiNuoi traiNuoi = new TraiNuoi();
+            traiNuoi.setUser(user);
+
+            log.info("Getting trai nuoi [{}] ...", user.toString());
+            TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(traiNuoi);
+            log.info("Got trai nuoi successfully: [{}] ...", traiNuoiInDB.getId());
+            return ResponseEntity.ok(traiNuoiInDB);
+        } catch (Exception e) {
+            log.error("Cannot get trai nuoi: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @GetMapping(path = "login")
+    public ResponseEntity<?> getTraiNuoi(@NotBlank @RequestParam("username") String username,
+            @NotBlank @RequestParam("password") String password) {
+        try {
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(password);
+
+            TraiNuoi traiNuoi = new TraiNuoi();
+            traiNuoi.setUser(user);
+
+            log.info("Getting trai nuoi [{}] ...", user.toString());
+            TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(traiNuoi);
+            log.info("Got user successfully: [{}] ...", traiNuoiInDB.toString());
+            return ResponseEntity.ok(traiNuoiInDB);
+        } catch (Exception e) {
+            log.error("Cannot get trai nuoi: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
