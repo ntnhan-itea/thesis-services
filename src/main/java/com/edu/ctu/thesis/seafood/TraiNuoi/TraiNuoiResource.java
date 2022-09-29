@@ -71,7 +71,7 @@ public class TraiNuoiResource {
 
             log.info("Getting trai nuoi [{}] ...", user.toString());
             TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(traiNuoi);
-            log.info("Got user successfully: [{}] ...", traiNuoiInDB.toString());
+            log.info("Got user successfully: [{}] ...", traiNuoiInDB.getId());
             return ResponseEntity.ok(traiNuoiInDB);
         } catch (Exception e) {
             log.error("Cannot get trai nuoi: ", e);
