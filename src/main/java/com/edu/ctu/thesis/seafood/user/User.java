@@ -1,9 +1,10 @@
 package com.edu.ctu.thesis.seafood.user;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 import com.edu.ctu.thesis.audit.Audit;
-import com.edu.ctu.thesis.audit.AuditListener;
+import com.edu.ctu.thesis.audit.AuditInterface;
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
 import com.edu.ctu.thesis.util.ThesisUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -40,7 +41,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(of = {"username"})
 @Validated
 // @EntityListeners(AuditListener.class)
-public class User {
+public class User implements AuditInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,9 +71,9 @@ public class User {
     @JoinColumn(name = "trai_nuoi_id", nullable = false)
     private TraiNuoi traiNuoi;
 
-    // @JsonProperty(access = Access.READ_ONLY)
-    // @Embedded
-    // private Audit audit;
+    @JsonIgnore
+    @Embedded
+    private Audit audit;
 
     public void copy(User user) {
         this.password = ThesisUtils.encodeBase64(user.newPassword.trim());
@@ -81,6 +82,39 @@ public class User {
         }
     }
 
+
+
+    @Override
+    public void setCreationUser(String creationUser) {
+        if(this.audit == null) {
+            this.audit = new Audit();
+        }
+        this.audit.setCreationUser(this.username);
+    }
+
+    @Override
+    public void setCreationTime(LocalDateTime creationTime) {
+        if(this.audit == null) {
+            this.audit = new Audit();
+        }
+        this.audit.setCreationTime(creationTime);      
+    }
+
+    @Override
+    public void setModificationUser(String modificationUser) {
+        if(this.audit == null) {
+            this.audit = new Audit();
+        }
+        this.audit.setModificationUser(this.username);
+    }
+
+    @Override
+    public void setModificationTime(LocalDateTime modificationTime) {
+        if(this.audit == null) {
+            this.audit = new Audit();
+        }
+        this.audit.setModificationTime(modificationTime);    
+    }
     
     
 

@@ -1,5 +1,7 @@
 package com.edu.ctu.thesis.seafood.TraiNuoi;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -15,6 +17,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.edu.ctu.thesis.audit.Audit;
+import com.edu.ctu.thesis.audit.AuditInterface;
 import com.edu.ctu.thesis.audit.AuditListener;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.seafood.valididy.Validity;
@@ -26,6 +29,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Table(name = "trai_nuoi")
@@ -35,7 +39,8 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EntityListeners(AuditListener.class)
 @EqualsAndHashCode(callSuper = false, of = { "user" })
-public class TraiNuoi extends Validity {
+@Slf4j
+public class TraiNuoi extends Validity implements AuditInterface { 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,6 +83,42 @@ public class TraiNuoi extends Validity {
         this.doiTuoiNuoi = traiNuoi.doiTuoiNuoi;
         this.dienTichNuoi = traiNuoi.dienTichNuoi;
         this.user.setFullName(traiNuoi.user.getFullName());
+    }
+
+    @Override
+    public void setCreationUser(String creationUser) {
+        if(this.audit == null) {
+            this.audit = new Audit();
+        }
+        this.audit.setCreationUser(this.user.getUsername());
+        log.info("Creation user [{}]", this.audit.getCreationUser());
+    }
+
+    @Override
+    public void setCreationTime(LocalDateTime creationTime) {
+        if(this.audit == null) {
+            this.audit = new Audit();
+        }
+        this.audit.setCreationTime(creationTime);      
+        log.info("Creation time [{}]", this.audit.getCreationTime());
+    }
+
+    @Override
+    public void setModificationUser(String modificationUser) {
+        if(this.audit == null) {
+            this.audit = new Audit();
+        }
+        this.audit.setModificationUser(this.user.getUsername());
+        log.info("Modification user [{}]", this.audit.getModificationUser());
+    }
+
+    @Override
+    public void setModificationTime(LocalDateTime modificationTime) {
+        if(this.audit == null) {
+            this.audit = new Audit();
+        }
+        this.audit.setModificationTime(modificationTime);    
+        log.info("Modification time [{}]", this.audit.getModificationTime());
     }
 
 }
