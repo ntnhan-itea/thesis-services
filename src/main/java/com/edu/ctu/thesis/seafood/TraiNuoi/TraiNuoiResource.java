@@ -37,7 +37,7 @@ public class TraiNuoiResource {
         try {
             log.info("Creating new trai nuoi [{}] ...", traiNuoi.toString());
             TraiNuoi createdTraiNuoi = this.traiNuoiService.createTraiNuoi(traiNuoi);
-            log.info("Created new trai nuoi successfully: [{}] ...", createdTraiNuoi.getId());
+            log.info("Created new trai nuoi [{}] successfully!", createdTraiNuoi.getId());
             return ResponseEntity.ok(createdTraiNuoi);
         } catch (Exception e) {
             log.error("Cannot create new trai nuoi: ", e);
@@ -55,7 +55,7 @@ public class TraiNuoiResource {
 
             log.info("Getting trai nuoi [{}] ...", user.toString());
             TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(user);
-            log.info("Got user successfully: [{}] ...", traiNuoiInDB.getId());
+            log.info("Got trai nuoi [{}] successfully!", traiNuoiInDB.getId());
             return ResponseEntity.ok(traiNuoiInDB);
         } catch (Exception e) {
             log.error("Cannot get trai nuoi: ", e);
@@ -69,7 +69,7 @@ public class TraiNuoiResource {
             log.info("Updating trai nuoi [{}] ...", traiNuoi.toString());
             traiNuoi.setId(traiNuoiId);
             TraiNuoi updatedTraiNuoi = this.traiNuoiService.updateTraiNuoi(traiNuoi);
-            log.info("Updated trai nuoi successfully: [{}] ...", updatedTraiNuoi.getId());
+            log.info("Updated trai nuoi [{}] successfully!", updatedTraiNuoi.getId());
             return ResponseEntity.ok(updatedTraiNuoi);
         } catch (Exception e) {
             log.error("Cannot update trai nuoi: ", e);
@@ -84,7 +84,7 @@ public class TraiNuoiResource {
 
             log.info("Getting trai nuoi [{}] ...", user.toString());
             TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(user);
-            log.info("Got trai nuoi successfully: [{}] ...", traiNuoiInDB.getId());
+            log.info("Got trai nuoi [{}] successfully!", traiNuoiInDB.getId());
             return ResponseEntity.ok(traiNuoiInDB);
         } catch (Exception e) {
             log.error("Cannot get trai nuoi: ", e);

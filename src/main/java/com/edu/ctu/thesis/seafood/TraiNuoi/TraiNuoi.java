@@ -1,6 +1,7 @@
 package com.edu.ctu.thesis.seafood.TraiNuoi;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,16 +12,20 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.util.CollectionUtils;
 
 import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.audit.AuditInterface;
 import com.edu.ctu.thesis.audit.AuditListener;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.seafood.valididy.Validity;
+import com.edu.ctu.thesis.seafood.vungnuoi.VungNuoi;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -40,7 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 @EntityListeners(AuditListener.class)
 @EqualsAndHashCode(callSuper = false, of = { "user" })
 @Slf4j
-public class TraiNuoi extends Validity implements AuditInterface { 
+public class TraiNuoi extends Validity implements AuditInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,6 +75,9 @@ public class TraiNuoi extends Validity implements AuditInterface {
     @NotNull(message = "User should not be null")
     private User user;
 
+    @OneToMany(mappedBy = "traiNuoi", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<VungNuoi> vungNuois;
+
     // @JsonIgnore
     @JsonProperty(access = Access.READ_ONLY)
     @Embedded
@@ -83,11 +91,23 @@ public class TraiNuoi extends Validity implements AuditInterface {
         this.doiTuoiNuoi = traiNuoi.doiTuoiNuoi;
         this.dienTichNuoi = traiNuoi.dienTichNuoi;
         this.user.setFullName(traiNuoi.user.getFullName());
+        this.copyVungNuois(traiNuoi.vungNuois);
+    }
+
+    private void copyVungNuois(List<VungNuoi> vungNuois) {
+        if (!CollectionUtils.isEmpty(this.vungNuois) && !CollectionUtils.isEmpty(vungNuois)) {
+            for (VungNuoi each : this.vungNuois) {
+                VungNuoi temp = vungNuois.stream().filter(e -> each.getId().equals(e.getId())).findFirst().orElse(null);
+                if (temp != null) {
+                    each.copy(temp);
+                }
+            }
+        }
     }
 
     @Override
     public void setCreationUser(String creationUser) {
-        if(this.audit == null) {
+        if (this.audit == null) {
             this.audit = new Audit();
         }
         this.audit.setCreationUser(this.user.getUsername());
@@ -96,16 +116,16 @@ public class TraiNuoi extends Validity implements AuditInterface {
 
     @Override
     public void setCreationTime(LocalDateTime creationTime) {
-        if(this.audit == null) {
+        if (this.audit == null) {
             this.audit = new Audit();
         }
-        this.audit.setCreationTime(creationTime);      
+        this.audit.setCreationTime(creationTime);
         log.info("Creation time [{}]", this.audit.getCreationTime());
     }
 
     @Override
     public void setModificationUser(String modificationUser) {
-        if(this.audit == null) {
+        if (this.audit == null) {
             this.audit = new Audit();
         }
         this.audit.setModificationUser(this.user.getUsername());
@@ -114,10 +134,10 @@ public class TraiNuoi extends Validity implements AuditInterface {
 
     @Override
     public void setModificationTime(LocalDateTime modificationTime) {
-        if(this.audit == null) {
+        if (this.audit == null) {
             this.audit = new Audit();
         }
-        this.audit.setModificationTime(modificationTime);    
+        this.audit.setModificationTime(modificationTime);
         log.info("Modification time [{}]", this.audit.getModificationTime());
     }
 

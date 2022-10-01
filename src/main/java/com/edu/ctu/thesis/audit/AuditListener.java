@@ -14,13 +14,16 @@ public class AuditListener {
     private void beforeAnyUpdate(AuditInterface audit) {
         LocalDateTime now = LocalDateTime.now();
         audit.setCreationTime(now);
+        audit.setCreationUser(null);
         audit.setModificationTime(now);
+        audit.setModificationUser(null);
     }
 
     @PreUpdate
     private void afterAnyUpdate(AuditInterface audit) {
         LocalDateTime now = LocalDateTime.now();
         audit.setModificationTime(now);
+        audit.setModificationUser(null);
     }
 
     // @PrePersist

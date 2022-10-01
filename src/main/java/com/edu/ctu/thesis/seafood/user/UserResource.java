@@ -31,7 +31,7 @@ public class UserResource {
         try {
             log.info("Creating new user [{}] ...", user.toString());
             User createdUser = this.userService.createUser(user);
-            log.info("Created new user successfully: [{}] ...", createdUser.getId());
+            log.info("Created new user [{}] successfully!", createdUser.getId());
             return ResponseEntity.ok(createdUser);
         } catch (Exception e) {
             log.error("Cannot create new user: ", e);
@@ -44,7 +44,7 @@ public class UserResource {
         try {
             log.info("Updating user [{}] ...", user.toString());
             User updatedUser = this.userService.updateUser(user);
-            log.info("Updated user successfully: [{}] ...", updatedUser.getId());
+            log.info("Updated user [{}] successfully!", updatedUser.getId());
             return ResponseEntity.ok(updatedUser);
         } catch (Exception e) {
             log.error("Cannot update user: ", e);
@@ -57,7 +57,7 @@ public class UserResource {
         try {
             log.info("Getting user [{}] ...", user.toString());
             User userInDB = this.userService.getUser(user);
-            log.info("Got user successfully: [{}] ...", userInDB.getUsername());
+            log.info("Got user [{}] successfully!", userInDB.getUsername());
             return ResponseEntity.ok(userInDB);
         } catch (Exception e) {
             log.error("Cannot create new user: ", e);
@@ -75,7 +75,7 @@ public class UserResource {
 
             log.info("Getting user [{}] ...", user.toString());
             User userInDB = this.userService.getUser(user);
-            log.info("Got user successfully: [{}] ...", userInDB.getUsername());
+            log.info("Got user [{}] successfully!", userInDB.getUsername());
             return ResponseEntity.ok(userInDB);
         } catch (Exception e) {
             log.error("Cannot create new user: ", e);
