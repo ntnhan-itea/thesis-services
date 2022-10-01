@@ -32,7 +32,7 @@ public class TraiNuoiResource {
     @Autowired
     TraiNuoiService traiNuoiService;
 
-    @PostMapping(path = "create")
+    @PostMapping
     public ResponseEntity<?> creatTraiNuoi(@Valid @RequestBody TraiNuoi traiNuoi) {
         try {
             log.info("Creating new trai nuoi [{}] ...", traiNuoi.toString());
@@ -45,7 +45,28 @@ public class TraiNuoiResource {
         }
     }
 
-    @PutMapping(path = "update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "login")
+    public ResponseEntity<?> getTraiNuoi(@NotBlank @RequestParam("username") String username,
+            @NotBlank @RequestParam("password") String password) {
+        try {
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(password);
+
+            TraiNuoi traiNuoi = new TraiNuoi();
+            traiNuoi.setUser(user);
+
+            log.info("Getting trai nuoi [{}] ...", user.toString());
+            TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(traiNuoi);
+            log.info("Got user successfully: [{}] ...", traiNuoiInDB.getId());
+            return ResponseEntity.ok(traiNuoiInDB);
+        } catch (Exception e) {
+            log.error("Cannot get trai nuoi: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateTraiNuoi(@NotNull @PathVariable(value = "id") Long traiNuoiId, @Valid @RequestBody TraiNuoi traiNuoi) {
         try {
             log.info("Updating trai nuoi [{}] ...", traiNuoi.toString());
@@ -77,25 +98,6 @@ public class TraiNuoiResource {
         }
     }
 
-    @GetMapping(path = "login")
-    public ResponseEntity<?> getTraiNuoi(@NotBlank @RequestParam("username") String username,
-            @NotBlank @RequestParam("password") String password) {
-        try {
-            User user = new User();
-            user.setUsername(username);
-            user.setPassword(password);
-
-            TraiNuoi traiNuoi = new TraiNuoi();
-            traiNuoi.setUser(user);
-
-            log.info("Getting trai nuoi [{}] ...", user.toString());
-            TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(traiNuoi);
-            log.info("Got user successfully: [{}] ...", traiNuoiInDB.getId());
-            return ResponseEntity.ok(traiNuoiInDB);
-        } catch (Exception e) {
-            log.error("Cannot get trai nuoi: ", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
+   
 
 }

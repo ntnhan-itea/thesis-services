@@ -25,7 +25,7 @@ public class UserResource {
     @Autowired
     UserService userService;
 
-    @PostMapping(path = "create")
+    @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
         try {
             log.info("Creating new user [{}] ...", user.toString());

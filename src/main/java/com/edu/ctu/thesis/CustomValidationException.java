@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestControllerAdvice
+@Slf4j
 public class CustomValidationException {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -22,8 +25,11 @@ public class CustomValidationException {
         String message = "{";
 
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
+            String errorField = fieldError.getField();
+            String errorMessage = fieldError.getDefaultMessage();
 
-            message += fieldError.getField() + ": " + fieldError.getDefaultMessage() + "; ";
+            message += errorMessage + "; ";
+            log.error(errorField + ": " + errorMessage);
         }
         message = message.trim();
         message += "}";
@@ -32,11 +38,11 @@ public class CustomValidationException {
         return error;
     }
 
-    
-//     @ExceptionHandler(ConstraintViolationException.class)
-//     @ResponseStatus(HttpStatus.BAD_REQUEST)
-//     public @ResponseBody String handleConstraintViolationException(ConstraintViolationException ex) {
+    // @ExceptionHandler(ConstraintViolationException.class)
+    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    // public @ResponseBody String
+    // handleConstraintViolationException(ConstraintViolationException ex) {
 
-//         return ex.getMessage();
-//     }
+    // return ex.getMessage();
+    // }
 }

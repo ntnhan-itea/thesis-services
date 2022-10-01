@@ -57,7 +57,7 @@ public class EmployeeResource {
     }
 
     @PostMapping
-    public Employee createEmployee(@RequestBody Employee employee) {
+    public Employee createEmployee(@Valid @RequestBody Employee employee) {
         try {
             return employeeService.createEmployee(employee);
         } catch (Exception ex) {

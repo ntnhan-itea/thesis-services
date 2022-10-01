@@ -18,8 +18,9 @@ import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.audit.AuditListener;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.seafood.valididy.Validity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -64,8 +65,9 @@ public class TraiNuoi extends Validity {
     @NotNull(message = "User should not be null")
     private User user;
 
+    // @JsonIgnore
+    @JsonProperty(access = Access.READ_ONLY)
     @Embedded
-    @JsonIgnore
     private Audit audit;
 
     public void copy(TraiNuoi traiNuoi) {
