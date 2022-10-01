@@ -32,7 +32,7 @@ public class AuditListener {
 
     @PreUpdate
     private void afterAnyUpdate(TraiNuoi trainuoi) {
-        Audit audit = new Audit();
+        Audit audit = trainuoi.getAudit();
         LocalDateTime now = LocalDateTime.now();
         User user = trainuoi.getUser();
 
