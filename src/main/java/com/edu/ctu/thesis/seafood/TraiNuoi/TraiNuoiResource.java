@@ -53,11 +53,8 @@ public class TraiNuoiResource {
             user.setUsername(username);
             user.setPassword(password);
 
-            TraiNuoi traiNuoi = new TraiNuoi();
-            traiNuoi.setUser(user);
-
             log.info("Getting trai nuoi [{}] ...", user.toString());
-            TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(traiNuoi);
+            TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(user);
             log.info("Got user successfully: [{}] ...", traiNuoiInDB.getId());
             return ResponseEntity.ok(traiNuoiInDB);
         } catch (Exception e) {
@@ -85,11 +82,8 @@ public class TraiNuoiResource {
     public ResponseEntity<?> getTraiNuoi(@Valid @RequestBody User user) {
         try {
 
-            TraiNuoi traiNuoi = new TraiNuoi();
-            traiNuoi.setUser(user);
-
             log.info("Getting trai nuoi [{}] ...", user.toString());
-            TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(traiNuoi);
+            TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(user);
             log.info("Got trai nuoi successfully: [{}] ...", traiNuoiInDB.getId());
             return ResponseEntity.ok(traiNuoiInDB);
         } catch (Exception e) {

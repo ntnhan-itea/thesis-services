@@ -34,7 +34,7 @@ import lombok.NoArgsConstructor;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EntityListeners(AuditListener.class)
-@EqualsAndHashCode(callSuper = false, of = {"id", "user"})
+@EqualsAndHashCode(callSuper = false, of = { "user" })
 public class TraiNuoi extends Validity {
 
     @Id

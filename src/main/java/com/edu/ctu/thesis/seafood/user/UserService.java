@@ -30,6 +30,24 @@ public class UserService {
         return this.userRepository.save(user);
     }
 
+    public User updateUser(User user) {
+        User userInDB = this.getUser(user);
+        this.isValidNewPassword(user);
+
+        userInDB.copy(user);
+        return this.userRepository.save(userInDB);
+    }
+
+    private void isValidNewPassword(User user) {
+        if(user == null) {
+            throw new IllegalArgumentException(INVALID_ACCOUNT);
+        }
+
+        if(StringUtils.isBlank(user.getNewPassword())) {
+            throw new IllegalArgumentException("Invalid new password");
+        }
+    }
+
     public void checkUserIsNotExistInDb(User user) {
         this.checkValidUser(user);
         String username = user.getUsername().trim();

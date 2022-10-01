@@ -30,9 +30,29 @@ public class AuditListener {
                 trainuoi.getAudit().getCreationTime());
     }
 
+    // @PrePersist
+    // private void beforeAnyUpdate(User user) {
+    //     Audit audit = new Audit();
+    //     LocalDateTime now = LocalDateTime.now();
+
+    //     audit.setCreationUser(user.getUsername());
+    //     audit.setCreationTime(now);
+    //     audit.setModificationUser(user.getUsername());
+    //     audit.setModificationTime(now);
+
+    //     user.setAudit(audit);
+
+    //     log.info("Creation user [{}] - Creation time [{}].", user.getAudit().getCreationUser(),
+    //             user.getAudit().getCreationTime());
+    // }
+
     @PreUpdate
     private void afterAnyUpdate(TraiNuoi trainuoi) {
         Audit audit = trainuoi.getAudit();
+        if(audit == null) {
+            audit = new Audit();
+        }
+
         LocalDateTime now = LocalDateTime.now();
         User user = trainuoi.getUser();
 
@@ -44,5 +64,23 @@ public class AuditListener {
         log.info("Modification user [{}] - Modification time [{}].", trainuoi.getAudit().getCreationUser(),
                 trainuoi.getAudit().getCreationTime());
     }
+
+    // @PreUpdate
+    // private void afterAnyUpdate(User user) {
+    //     Audit audit = user.getAudit();
+    //     if(audit == null) {
+    //         audit = new Audit();
+    //     }
+
+    //     LocalDateTime now = LocalDateTime.now();
+    //     audit.setModificationUser(user.getUsername());
+    //     audit.setModificationTime(now);
+
+    //     user.setAudit(audit);
+
+    //     log.info("Modification user [{}] - Modification time [{}].", user.getAudit().getCreationUser(),
+    //             user.getAudit().getCreationTime());
+    // }
+
 
 }

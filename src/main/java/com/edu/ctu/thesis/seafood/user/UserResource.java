@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,6 +39,19 @@ public class UserResource {
         }
     }
 
+    @PutMapping
+    public ResponseEntity<?> updateUser(@Valid @RequestBody User user) {
+        try {
+            log.info("Updating user [{}] ...", user.toString());
+            User updatedUser = this.userService.updateUser(user);
+            log.info("Updated user successfully: [{}] ...", updatedUser.getId());
+            return ResponseEntity.ok(updatedUser);
+        } catch (Exception e) {
+            log.error("Cannot update user: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    } 
+
     @PostMapping(path = "login")
     public ResponseEntity<?> getUser(@Valid @RequestBody User user) {
         try {
@@ -47,7 +61,7 @@ public class UserResource {
             return ResponseEntity.ok(userInDB);
         } catch (Exception e) {
             log.error("Cannot create new user: ", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 

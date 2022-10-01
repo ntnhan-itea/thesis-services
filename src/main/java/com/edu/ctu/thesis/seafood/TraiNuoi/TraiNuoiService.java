@@ -57,10 +57,8 @@ public class TraiNuoiService {
         return traiNuoiInDB.get();
     }
 
-    public TraiNuoi getTraiNuoi(TraiNuoi traiNuoi) {
-        User user = traiNuoi.getUser();
+    public TraiNuoi getTraiNuoi(User user) {
         this.userService.checkValidUser(user);
-
         String username = user.getUsername().trim();
         String password = user.getPassword().trim();
 

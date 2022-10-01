@@ -1,19 +1,26 @@
 package com.edu.ctu.thesis.seafood.user;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
+import com.edu.ctu.thesis.audit.Audit;
+import com.edu.ctu.thesis.audit.AuditListener;
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
+import com.edu.ctu.thesis.util.ThesisUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -30,8 +37,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@EqualsAndHashCode(of = {"id", "username"})
+@EqualsAndHashCode(of = {"username"})
 @Validated
+// @EntityListeners(AuditListener.class)
 public class User {
 
     @Id
@@ -50,6 +58,10 @@ public class User {
     @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
 
+    @Transient
+    @JsonProperty(access = Access.WRITE_ONLY)
+    private String newPassword;
+
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
@@ -58,6 +70,18 @@ public class User {
     @JoinColumn(name = "trai_nuoi_id", nullable = false)
     private TraiNuoi traiNuoi;
 
+    // @JsonProperty(access = Access.READ_ONLY)
+    // @Embedded
+    // private Audit audit;
+
+    public void copy(User user) {
+        this.password = ThesisUtils.encodeBase64(user.newPassword.trim());
+        if(StringUtils.isNotBlank(user.fullName)) {
+            this.fullName = user.fullName.trim();
+        }
+    }
+
+    
     
 
     // @PrePersist
