@@ -60,7 +60,7 @@ public class TraiNuoiService {
     public TraiNuoi getTraiNuoi(User user) {
         this.userService.checkValidUser(user);
         String username = user.getUsername().trim();
-        String password = user.getPassword().trim();
+        String password = ThesisUtils.encodeBase64(user.getPassword().trim());
 
         TraiNuoi traiNuoiInDB = this.traiNuoiRepository.findByAccount(username, password);
         if (Objects.isNull(traiNuoiInDB)) {

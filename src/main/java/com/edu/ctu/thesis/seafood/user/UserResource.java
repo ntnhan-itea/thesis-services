@@ -69,7 +69,6 @@ public class UserResource {
     public ResponseEntity<?> getUser(@RequestParam("username") String username,
             @RequestParam("password") String password) {
         try {
-
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
