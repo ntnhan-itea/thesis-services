@@ -1,5 +1,8 @@
 package com.edu.ctu.thesis.seafood.vungnuoi;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
@@ -14,9 +18,13 @@ import javax.validation.constraints.NotBlank;
 import org.apache.commons.lang3.StringUtils;
 
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
+import com.edu.ctu.thesis.seafood.point.Point;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.seafood.valididy.Validity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -31,6 +39,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false, of = { "id" })
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(value = Include.NON_NULL)
 public class VungNuoi extends Validity {
 
     @Id
@@ -50,6 +60,10 @@ public class VungNuoi extends Validity {
     @Column(name = "geo_json")
     private String geoJson;
 
+    @OneToMany(mappedBy = "vungNuoi", cascade = CascadeType.ALL)
+    @JsonProperty("listOfPoint")
+    private List<Point> listOfPoint;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "trai_nuoi_id", nullable = false)
@@ -58,16 +72,6 @@ public class VungNuoi extends Validity {
     @Transient
     @JsonProperty(access = Access.WRITE_ONLY)
     private User user;
-
-    @JsonProperty(access = Access.READ_ONLY)
-    public Long getTraiNuoiId() {
-        return this.traiNuoi == null ? null : this.traiNuoi.getId();
-    }
-
-    @JsonProperty(access = Access.READ_ONLY)
-    public String getUsername() {
-        return this.user == null ? null : this.user.getUsername();
-    }
 
     public void copy(VungNuoi vungNuoi) {
         this.tenVungNuoi = vungNuoi.tenVungNuoi;

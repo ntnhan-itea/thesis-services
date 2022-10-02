@@ -5,8 +5,10 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.edu.ctu.thesis.seafood.user.User;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -39,7 +43,7 @@ public class VungNuoiResource {
         }
     }
 
-    @PutMapping(value = "{id}")
+    @PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateVungNuoi(@NotNull @PathVariable(value = "id") Long vungNuoiId,
             @Valid @RequestBody VungNuoi vungNuoi) {
         try {
@@ -50,6 +54,20 @@ public class VungNuoiResource {
             return ResponseEntity.ok(vungNuoiUpdated);
         } catch (Exception e) {
             log.error("Cannot update vung nuoi: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<?> removeVungNuoi(@NotNull @PathVariable(value = "id") Long id,
+            @Valid @RequestBody User user) {
+        try {
+            log.info("Removing vung nuoi [{}] ...", id);
+            this.vungNuoiService.removeVungNuoi(id, user);
+            log.info("Removed vung nuoi [{}] successfully!", id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e) {
+            log.error("Cannot remove vung nuoi: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

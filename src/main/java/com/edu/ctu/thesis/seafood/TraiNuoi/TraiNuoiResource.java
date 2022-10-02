@@ -63,7 +63,7 @@ public class TraiNuoiResource {
         }
     }
 
-    @PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateTraiNuoi(@NotNull @PathVariable(value = "id") Long traiNuoiId, @Valid @RequestBody TraiNuoi traiNuoi) {
         try {
             log.info("Updating trai nuoi [{}] ...", traiNuoi.toString());

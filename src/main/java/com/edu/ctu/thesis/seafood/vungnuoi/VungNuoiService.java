@@ -1,13 +1,17 @@
 package com.edu.ctu.thesis.seafood.vungnuoi;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoiService;
+import com.edu.ctu.thesis.seafood.point.Point;
+import com.edu.ctu.thesis.seafood.point.PointService;
 import com.edu.ctu.thesis.seafood.user.User;
 
 @Service
@@ -19,6 +23,9 @@ public class VungNuoiService {
     @Autowired
     TraiNuoiService traiNuoiService;
 
+    @Autowired
+    PointService pointService;
+
     public VungNuoi createVungNuoi(VungNuoi vungNuoi) {
         User user = vungNuoi.getUser();
         TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(user);
@@ -26,24 +33,58 @@ public class VungNuoiService {
         vungNuoi.setTraiNuoi(traiNuoiInDB);
         vungNuoi.setTenVungNuoi(tenVungNuoi);
 
+        List<Point> points = vungNuoi.getListOfPoint();
+        if (!CollectionUtils.isEmpty(points)) {
+            points.stream().forEach(e -> e.setVungNuoi(vungNuoi));
+        }
+
         return this.vungNuoiRepository.save(vungNuoi);
     }
 
     public VungNuoi updateVungNuoi(VungNuoi vungNuoi) {
-        if (vungNuoi == null) {
-            throw new IllegalArgumentException("Invalid vung nuoi input!");
-        }
-        
-        TraiNuoi traiNuoiUpdated = this.traiNuoiService.updateVungNuoi(Arrays.asList(vungNuoi));
-        VungNuoi vungNuoiUpdated = traiNuoiUpdated.getVungNuois().stream()
-                .filter(e -> e.getId().equals(vungNuoi.getId()))
-                .findFirst().orElse(null);
+        this.checkVungNuoiIsNotExistInDB(vungNuoi);
+        VungNuoi vungNuoiInDB = this.findById(vungNuoi.getId());
+        this.createNewPointsWhenUpdate(vungNuoi, vungNuoiInDB);
 
-        return vungNuoiUpdated;
+        vungNuoiInDB.copy(vungNuoi);
+        return this.vungNuoiRepository.save(vungNuoiInDB);
 
     }
 
-    public String checkVungNuoiIsNotExistInDB(VungNuoi vungNuoi) {
+    private void createNewPointsWhenUpdate(VungNuoi vungNuoi, VungNuoi vungNuoiInDB) {
+        List<Point> points = vungNuoi.getListOfPoint();
+        if (!CollectionUtils.isEmpty(points)) {
+            this.pointService.deleteAllPointByVungNuoiId(vungNuoi.getId());
+
+            points.stream().forEach(e -> e.setVungNuoi(vungNuoiInDB));
+            this.pointService.createPoint(points);
+        }
+    }
+
+    public VungNuoi findById(Long id) {
+        Optional<VungNuoi> vungNuoi = this.vungNuoiRepository.findById(id);
+        if (!vungNuoi.isPresent()) {
+            throw new IllegalArgumentException("Vung nuoi [" + id + "] khong tim thay trong DB!");
+        }
+        return vungNuoi.get();
+    }
+
+    public void removeVungNuoi(Long id, User user) {
+        TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(user);
+        List<VungNuoi> vungNuoisInDB = traiNuoiInDB.getVungNuois();
+        if (CollectionUtils.isEmpty(vungNuoisInDB)) {
+            throw new IllegalArgumentException("Khong tim thay danh sach vung nuoi trong trai nuoi!");
+        }
+
+        VungNuoi vungNuoiInDB = this.findById(id);
+        this.vungNuoiRepository.delete(vungNuoiInDB); // TODO: issue cannot remove vung nuoi.
+    }
+
+    private String checkVungNuoiIsNotExistInDB(VungNuoi vungNuoi) {
+        if (vungNuoi == null) {
+            throw new IllegalArgumentException("Invalid vung nuoi input!");
+        }
+
         String tenVungNuoi = vungNuoi.getTenVungNuoi();
         VungNuoi vungNuoiInDB = this.getVungNuoiByTenVungNuoi(tenVungNuoi);
         if (vungNuoiInDB != null) {
@@ -52,7 +93,7 @@ public class VungNuoiService {
         return tenVungNuoi.trim();
     }
 
-    public VungNuoi getVungNuoiByTenVungNuoi(String tenVungNuoi) {
+    private VungNuoi getVungNuoiByTenVungNuoi(String tenVungNuoi) {
         if (StringUtils.isBlank(tenVungNuoi)) {
             throw new IllegalArgumentException("Invalid ten vung nuoi input!");
         }
