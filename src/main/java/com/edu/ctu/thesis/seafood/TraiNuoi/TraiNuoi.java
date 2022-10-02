@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import com.edu.ctu.thesis.audit.Audit;
@@ -90,16 +91,24 @@ public class TraiNuoi extends Validity implements AuditInterface {
         this.hinhThucNuoi = traiNuoi.hinhThucNuoi;
         this.doiTuoiNuoi = traiNuoi.doiTuoiNuoi;
         this.dienTichNuoi = traiNuoi.dienTichNuoi;
-        this.user.setFullName(traiNuoi.user.getFullName());
+
+        this.copyUserFullName(traiNuoi);
         this.copyVungNuois(traiNuoi.vungNuois);
+    }
+
+    private void copyUserFullName(TraiNuoi traiNuoi) {
+        String userFullName = traiNuoi.user.getFullName();
+        if (StringUtils.isNotBlank(userFullName)) {
+            this.user.setFullName(userFullName);
+        }
     }
 
     private void copyVungNuois(List<VungNuoi> vungNuois) {
         if (!CollectionUtils.isEmpty(this.vungNuois) && !CollectionUtils.isEmpty(vungNuois)) {
-            for (VungNuoi each : this.vungNuois) {
-                VungNuoi temp = vungNuois.stream().filter(e -> each.getId().equals(e.getId())).findFirst().orElse(null);
-                if (temp != null) {
-                    each.copy(temp);
+            for (VungNuoi vungNuoi : vungNuois) {
+                VungNuoi vungNuoiInDB = this.vungNuois.stream().filter(e -> e.getId().equals(vungNuoi.getId())).findFirst().orElse(null);
+                if(vungNuoiInDB != null) {
+                    vungNuoiInDB.copy(vungNuoi);
                 }
             }
         }

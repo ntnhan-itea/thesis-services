@@ -34,7 +34,7 @@ public class TraiNuoiService {
         user.setPassword(password);
 
         List<VungNuoi> vungNuois = traiNuoi.getVungNuois();
-        if(!CollectionUtils.isEmpty(vungNuois)) {
+        if (!CollectionUtils.isEmpty(vungNuois)) {
             vungNuois.stream().filter(VungNuoi::isValid).forEach(e -> {
                 e.setTraiNuoi(traiNuoi);
                 e.setTenVungNuoi(e.getTenVungNuoi().trim());
@@ -74,5 +74,30 @@ public class TraiNuoiService {
         }
 
         return traiNuoiInDB;
+    }
+
+    public TraiNuoi updateVungNuoi(List<VungNuoi> vungNuois) {
+        User user = vungNuois.stream()
+                .filter(Objects::nonNull).filter(e -> e.getUser() != null)
+                .map(VungNuoi::getUser)
+                .findFirst().orElse(null);
+
+        TraiNuoi traiNuoiInDB = this.getTraiNuoi(user);
+        List<VungNuoi> vungNuoisInDB = traiNuoiInDB.getVungNuois();
+
+        if (CollectionUtils.isEmpty(vungNuoisInDB)) {
+            throw new IllegalArgumentException("Khong tim thay danh sach vung nuoi trong DB!");
+        }
+
+        for (VungNuoi vungNuoi : vungNuois) {
+            VungNuoi vungNuoiInDB = vungNuoisInDB.stream()
+                    .filter(e -> e.getId().equals(vungNuoi.getId()))
+                    .findFirst().orElse(null);
+            if (vungNuoiInDB != null) {
+                vungNuoiInDB.copy(vungNuoi);
+            }
+        }
+
+        return this.traiNuoiRepository.save(traiNuoiInDB);
     }
 }
