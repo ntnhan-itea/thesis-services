@@ -3,7 +3,6 @@ package com.edu.ctu.thesis.seafood.vungnuoi;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -29,9 +28,7 @@ public class VungNuoiService {
     public VungNuoi createVungNuoi(VungNuoi vungNuoi) {
         User user = vungNuoi.getUser();
         TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(user);
-        String tenVungNuoi = this.checkVungNuoiIsNotExistInDB(vungNuoi);
         vungNuoi.setTraiNuoi(traiNuoiInDB);
-        vungNuoi.setTenVungNuoi(tenVungNuoi);
 
         List<Point> points = vungNuoi.getListOfPoint();
         if (!CollectionUtils.isEmpty(points)) {
@@ -42,7 +39,6 @@ public class VungNuoiService {
     }
 
     public VungNuoi updateVungNuoi(VungNuoi vungNuoi) {
-        this.checkVungNuoiIsNotExistInDB(vungNuoi);
         VungNuoi vungNuoiInDB = this.findById(vungNuoi.getId());
         this.createNewPointsWhenUpdate(vungNuoi, vungNuoiInDB);
 
@@ -77,31 +73,10 @@ public class VungNuoiService {
         }
         VungNuoi vungNuoiInDB = this.findById(id);
         vungNuoisInDB.stream().filter(e -> vungNuoiInDB.getId().equals(e.getId())).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Cannot find vung nuoi [" + id + "] in DB"));
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find vung nuoi [" + id + "] in your DB"));
 
         vungNuoiInDB.getTraiNuoi().setVungNuois(null);
         this.vungNuoiRepository.delete(vungNuoiInDB);
-    }
-
-    private String checkVungNuoiIsNotExistInDB(VungNuoi vungNuoi) {
-        if (vungNuoi == null) {
-            throw new IllegalArgumentException("Invalid vung nuoi input!");
-        }
-
-        String tenVungNuoi = vungNuoi.getTenVungNuoi();
-        VungNuoi vungNuoiInDB = this.getVungNuoiByTenVungNuoi(tenVungNuoi);
-        if (vungNuoiInDB != null) {
-            throw new IllegalArgumentException("Vung nuoi [" + tenVungNuoi.trim() + "] da ton tai trong DB!");
-        }
-        return tenVungNuoi.trim();
-    }
-
-    private VungNuoi getVungNuoiByTenVungNuoi(String tenVungNuoi) {
-        if (StringUtils.isBlank(tenVungNuoi)) {
-            throw new IllegalArgumentException("Invalid ten vung nuoi input!");
-        }
-
-        return this.vungNuoiRepository.findByTenVungNuoi(tenVungNuoi.trim());
     }
 
 }

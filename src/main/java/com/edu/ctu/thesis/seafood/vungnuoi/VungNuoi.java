@@ -23,9 +23,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
+import com.edu.ctu.thesis.seafood.aonuoi.AoNuoi;
 import com.edu.ctu.thesis.seafood.point.Point;
 import com.edu.ctu.thesis.seafood.user.User;
-import com.edu.ctu.thesis.seafood.valididy.Validity;
+import com.edu.ctu.thesis.valididy.Validity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -53,7 +54,7 @@ public class VungNuoi extends Validity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ten_vung_nuoi", nullable = false, unique = true)
+    @Column(name = "ten_vung_nuoi", nullable = false)
     @NotBlank(message = "Ten vung nuoi khong duoc bo trong!")
     private String tenVungNuoi;
 
@@ -65,6 +66,9 @@ public class VungNuoi extends Validity {
 
     @OneToMany(mappedBy = "vungNuoi", cascade = CascadeType.ALL)
     private List<Point> listOfPoint;
+
+    @OneToMany(mappedBy = "vungNuoi", cascade = CascadeType.ALL)
+    private List<AoNuoi> aoNuois;
 
     @ManyToOne
     @JsonIgnore

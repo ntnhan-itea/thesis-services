@@ -25,8 +25,8 @@ import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.audit.AuditInterface;
 import com.edu.ctu.thesis.audit.AuditListener;
 import com.edu.ctu.thesis.seafood.user.User;
-import com.edu.ctu.thesis.seafood.valididy.Validity;
 import com.edu.ctu.thesis.seafood.vungnuoi.VungNuoi;
+import com.edu.ctu.thesis.valididy.Validity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -106,8 +106,9 @@ public class TraiNuoi extends Validity implements AuditInterface {
     private void copyVungNuois(List<VungNuoi> vungNuois) {
         if (!CollectionUtils.isEmpty(this.vungNuois) && !CollectionUtils.isEmpty(vungNuois)) {
             for (VungNuoi vungNuoi : vungNuois) {
-                VungNuoi vungNuoiInDB = this.vungNuois.stream().filter(e -> e.getId().equals(vungNuoi.getId())).findFirst().orElse(null);
-                if(vungNuoiInDB != null) {
+                VungNuoi vungNuoiInDB = this.vungNuois.stream().filter(e -> e.getId().equals(vungNuoi.getId()))
+                        .findFirst().orElse(null);
+                if (vungNuoiInDB != null) {
                     vungNuoiInDB.copy(vungNuoi);
                 }
             }

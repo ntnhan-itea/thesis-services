@@ -1,4 +1,4 @@
-package com.edu.ctu.thesis.seafood.valididy;
+package com.edu.ctu.thesis.valididy;
 
 import java.time.LocalDate;
 
