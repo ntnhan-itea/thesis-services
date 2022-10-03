@@ -77,7 +77,8 @@ public class VungNuoiService {
         }
 
         VungNuoi vungNuoiInDB = this.findById(id);
-        this.vungNuoiRepository.delete(vungNuoiInDB); // TODO: issue cannot remove vung nuoi.
+        vungNuoiInDB.getTraiNuoi().setVungNuois(null);
+        this.vungNuoiRepository.delete(vungNuoiInDB);
     }
 
     private String checkVungNuoiIsNotExistInDB(VungNuoi vungNuoi) {
