@@ -29,6 +29,7 @@ public class UserResource {
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
         try {
+            user.setId(null);
             log.info("Creating new user [{}] ...", user.toString());
             User createdUser = this.userService.createUser(user);
             log.info("Created new user [{}] successfully!", createdUser.getId());

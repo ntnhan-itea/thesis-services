@@ -35,6 +35,7 @@ public class TraiNuoiResource {
     @PostMapping
     public ResponseEntity<?> creatTraiNuoi(@Valid @RequestBody TraiNuoi traiNuoi) {
         try {
+            traiNuoi.setId(null);
             log.info("Creating new trai nuoi [{}] ...", traiNuoi.toString());
             TraiNuoi createdTraiNuoi = this.traiNuoiService.createTraiNuoi(traiNuoi);
             log.info("Created new trai nuoi [{}] successfully!", createdTraiNuoi.getId());

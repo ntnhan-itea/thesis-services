@@ -33,6 +33,7 @@ public class VungNuoiResource {
     @PostMapping
     public ResponseEntity<?> createVungNuoi(@Valid @RequestBody VungNuoi vungNuoi) {
         try {
+            vungNuoi.setId(null);
             log.info("Creating new vung nuoi [{}] ...", vungNuoi.toString());
             VungNuoi vungNuoiCreated = this.vungNuoiService.createVungNuoi(vungNuoi);
             log.info("Created vung nuoi [{}] successfully!", vungNuoiCreated.getTenVungNuoi());
