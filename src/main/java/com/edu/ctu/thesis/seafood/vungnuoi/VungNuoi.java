@@ -26,7 +26,7 @@ import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
 import com.edu.ctu.thesis.seafood.aonuoi.AoNuoi;
 import com.edu.ctu.thesis.seafood.point.Point;
 import com.edu.ctu.thesis.seafood.user.User;
-import com.edu.ctu.thesis.valididy.Validity;
+import com.edu.ctu.thesis.validity.Validity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

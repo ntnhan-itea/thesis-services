@@ -1,4 +1,4 @@
-package com.edu.ctu.thesis.valididy;
+package com.edu.ctu.thesis.validity;
 
 import java.time.LocalDate;
 
@@ -18,7 +18,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 public class Validity {
-    
+
     @Column(name = "valid_to")
     @JsonIgnore
     private LocalDate validTo;

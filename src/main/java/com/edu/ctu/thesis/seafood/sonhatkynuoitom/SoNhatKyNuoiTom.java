@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
-import com.edu.ctu.thesis.seafood.valididy.Validity;
+import com.edu.ctu.thesis.validity.Validity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

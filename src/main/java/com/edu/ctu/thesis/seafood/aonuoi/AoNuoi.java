@@ -20,8 +20,8 @@ import javax.validation.constraints.NotBlank;
 
 import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.seafood.point.Point;
-import com.edu.ctu.thesis.seafood.valididy.Validity;
 import com.edu.ctu.thesis.seafood.vungnuoi.VungNuoi;
+import com.edu.ctu.thesis.validity.Validity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "ao_nuoi")
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, of = "id")
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -88,7 +88,7 @@ public class AoNuoi extends Validity {
         this.audit.setModificationTime(now);
     }
 
-    public AoNuoi(AoNuoi aoNuoi) {
+    public void copy(AoNuoi aoNuoi) {
         this.tenAo = aoNuoi.tenAo;
         this.doSau = aoNuoi.doSau;
         this.moTa = aoNuoi.moTa;
