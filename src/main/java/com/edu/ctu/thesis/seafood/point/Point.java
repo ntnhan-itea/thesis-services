@@ -36,8 +36,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(value = Include.NON_NULL)
 public class Point {
+@JsonInclude(value = Include.NON_NULL) // include fields null --> dont show to response Json
 
     @JsonIgnore
     private static final String SEMI_COLON = ";";

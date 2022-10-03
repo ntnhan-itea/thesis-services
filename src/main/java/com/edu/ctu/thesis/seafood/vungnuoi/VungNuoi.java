@@ -27,13 +27,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "vung_nuoi")
-@Data
+// @Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = false, of = { "id" })
 @AllArgsConstructor
 @NoArgsConstructor
@@ -56,7 +59,6 @@ public class VungNuoi extends Validity {
     private String moTa;
 
     @OneToMany(mappedBy = "vungNuoi", cascade = CascadeType.ALL)
-    @JsonProperty("listOfPoint")
     private List<Point> listOfPoint;
 
     @ManyToOne
@@ -80,6 +82,12 @@ public class VungNuoi extends Validity {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "VungNuoi [id=" + id + ", tenVungNuoi=" + tenVungNuoi + ", diaChi=" + diaChi + ", moTa=" + moTa
+                + ", traiNuoi=" + traiNuoi + ", user=" + user + "]";
     }
 
 }
