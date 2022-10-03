@@ -23,8 +23,6 @@ import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.seafood.valididy.Validity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -40,7 +38,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(value = Include.NON_NULL)
+// @JsonInclude(value = Include.NON_NULL)
 public class VungNuoi extends Validity {
 
     @Id
@@ -56,9 +54,6 @@ public class VungNuoi extends Validity {
 
     @Column(name = "mo_ta")
     private String moTa;
-
-    @Column(name = "geo_json")
-    private String geoJson;
 
     @OneToMany(mappedBy = "vungNuoi", cascade = CascadeType.ALL)
     @JsonProperty("listOfPoint")
@@ -77,7 +72,6 @@ public class VungNuoi extends Validity {
         this.tenVungNuoi = vungNuoi.tenVungNuoi;
         this.diaChi = vungNuoi.diaChi;
         this.moTa = vungNuoi.moTa;
-        this.geoJson = vungNuoi.geoJson;
     }
 
     @JsonIgnore

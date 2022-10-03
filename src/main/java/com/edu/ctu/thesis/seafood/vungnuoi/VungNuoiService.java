@@ -75,8 +75,10 @@ public class VungNuoiService {
         if (CollectionUtils.isEmpty(vungNuoisInDB)) {
             throw new IllegalArgumentException("Khong tim thay danh sach vung nuoi trong trai nuoi!");
         }
-
         VungNuoi vungNuoiInDB = this.findById(id);
+        vungNuoisInDB.stream().filter(e -> vungNuoiInDB.getId().equals(e.getId())).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find vung nuoi [" + id + "] in DB"));
+
         vungNuoiInDB.getTraiNuoi().setVungNuois(null);
         this.vungNuoiRepository.delete(vungNuoiInDB);
     }
