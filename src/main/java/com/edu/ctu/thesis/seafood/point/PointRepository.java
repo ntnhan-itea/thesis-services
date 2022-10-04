@@ -12,4 +12,7 @@ public interface PointRepository extends JpaRepository<Point, Long> {
 
     @Query("FROM Point p where p.vungNuoi.id = :vungNuoiId")
     List<Point> findByVungNuoiId(@Param("vungNuoiId") Long id);
+
+    @Query("FROM Point p where p.aoNuoi.id = :aoNuoiId")
+    List<Point> findByAoNuoiId(@Param("aoNuoiId") Long id);
 }

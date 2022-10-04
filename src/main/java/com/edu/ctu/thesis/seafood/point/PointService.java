@@ -48,10 +48,18 @@ public class PointService {
         return this.pointRepository.findByVungNuoiId(id);
     }
 
+    public List<Point> findByAoNuoiId(Long id) {
+        return this.pointRepository.findByAoNuoiId(id);
+    }
+
     public void deleteAllPointByVungNuoiId(Long vungNuoiId) {
         List<Point> points = this.findByVungNuoiId(vungNuoiId);
-        if (!CollectionUtils.isEmpty(points)) {
-            this.deleteByOnes(points);
-        }
+        this.deleteByOnes(points);
     }
+
+    public void deleteAllPointByAoNuoiId(Long aoNuoiId) {
+        List<Point> points = this.findByAoNuoiId(aoNuoiId);
+        this.deleteByOnes(points);
+    }
+
 }
