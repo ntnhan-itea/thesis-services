@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
 import org.apache.commons.lang3.StringUtils;
@@ -65,17 +64,18 @@ public class VungNuoi extends Validity {
     private String moTa;
 
     @OneToMany(mappedBy = "vungNuoi", cascade = CascadeType.ALL)
-    private List<Point> listOfPoint;
+    private List<AoNuoi> aoNuois;
 
     @OneToMany(mappedBy = "vungNuoi", cascade = CascadeType.ALL)
-    private List<AoNuoi> aoNuois;
+    private List<Point> listOfPoint;
 
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "trai_nuoi_id", nullable = false)
     private TraiNuoi traiNuoi;
 
-    @Transient
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonProperty(access = Access.WRITE_ONLY)
     private User user;
 
@@ -87,6 +87,16 @@ public class VungNuoi extends Validity {
         this.tenVungNuoi = vungNuoi.tenVungNuoi;
         this.diaChi = vungNuoi.diaChi;
         this.moTa = vungNuoi.moTa;
+    }
+
+    public void clear() {
+        this.diaChi = null;
+        this.moTa = null;
+        this.listOfPoint = null;
+        this.aoNuois = null;
+        // this.traiNuoi = null;
+        // this.user = null;
+        this.audit = null;
     }
 
     @JsonIgnore

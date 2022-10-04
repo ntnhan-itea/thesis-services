@@ -17,13 +17,17 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.seafood.point.Point;
+import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.seafood.vungnuoi.VungNuoi;
 import com.edu.ctu.thesis.validity.Validity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -58,6 +62,12 @@ public class AoNuoi extends Validity {
 
     @OneToMany(mappedBy = "aoNuoi", cascade = CascadeType.ALL)
     private List<Point> listOfPoint;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @NotNull(message = "Account should not be null")
+    @JsonProperty(access = Access.WRITE_ONLY)
+    private User user;
 
     @ManyToOne
     @JsonIgnore

@@ -12,6 +12,7 @@ import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoiService;
 import com.edu.ctu.thesis.seafood.point.Point;
 import com.edu.ctu.thesis.seafood.point.PointService;
 import com.edu.ctu.thesis.seafood.user.User;
+import com.edu.ctu.thesis.seafood.user.UserService;
 
 @Service
 public class VungNuoiService {
@@ -25,10 +26,16 @@ public class VungNuoiService {
     @Autowired
     PointService pointService;
 
+    @Autowired
+    UserService userService;
+
     public VungNuoi createVungNuoi(VungNuoi vungNuoi) {
         User user = vungNuoi.getUser();
         TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(user);
+        User userInDB = traiNuoiInDB.getUser();
+        
         vungNuoi.setTraiNuoi(traiNuoiInDB);
+        vungNuoi.setUser(userInDB);
 
         List<Point> points = vungNuoi.getListOfPoint();
         if (!CollectionUtils.isEmpty(points)) {
@@ -63,6 +70,13 @@ public class VungNuoiService {
             throw new IllegalArgumentException("Vung nuoi [" + id + "] khong tim thay trong DB!");
         }
         return vungNuoi.get();
+    }
+
+    public VungNuoi findByIdAndUser(Long id, User user) {
+        VungNuoi vungNuoi = this.findById(id);
+        this.userService.checkValidUser(user);
+        this.userService.checkLoginSucceed(user, vungNuoi.getUser());
+        return vungNuoi;
     }
 
     public void removeVungNuoi(Long id, User user) {

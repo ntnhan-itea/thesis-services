@@ -38,7 +38,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@EqualsAndHashCode(of = {"username"})
+@EqualsAndHashCode(of = { "username" })
 @Validated
 // @EntityListeners(AuditListener.class)
 public class User implements AuditInterface {
@@ -55,7 +55,8 @@ public class User implements AuditInterface {
 
     @Column(name = "password", nullable = false)
     @NotBlank(message = "Password should not be blank")
-    // @Size(min = 3, max = 30, message = "The password must not be less than {min} and more than {max}")
+    // @Size(min = 3, max = 30, message = "The password must not be less than {min}
+    // and more than {max}")
     @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
 
@@ -77,16 +78,23 @@ public class User implements AuditInterface {
 
     public void copy(User user) {
         this.password = ThesisUtils.encodeBase64(user.newPassword.trim());
-        if(StringUtils.isNotBlank(user.fullName)) {
+        if (StringUtils.isNotBlank(user.fullName)) {
             this.fullName = user.fullName.trim();
         }
     }
 
-
+    public void clear() {
+        this.username = null;
+        this.password = null;
+        this.newPassword = null;
+        this.fullName = null;
+        this.traiNuoi = null;
+        this.audit = null;
+    }
 
     @Override
     public void setCreationUser(String creationUser) {
-        if(this.audit == null) {
+        if (this.audit == null) {
             this.audit = new Audit();
         }
         this.audit.setCreationUser(this.username);
@@ -94,15 +102,15 @@ public class User implements AuditInterface {
 
     @Override
     public void setCreationTime(LocalDateTime creationTime) {
-        if(this.audit == null) {
+        if (this.audit == null) {
             this.audit = new Audit();
         }
-        this.audit.setCreationTime(creationTime);      
+        this.audit.setCreationTime(creationTime);
     }
 
     @Override
     public void setModificationUser(String modificationUser) {
-        if(this.audit == null) {
+        if (this.audit == null) {
             this.audit = new Audit();
         }
         this.audit.setModificationUser(this.username);
@@ -110,13 +118,11 @@ public class User implements AuditInterface {
 
     @Override
     public void setModificationTime(LocalDateTime modificationTime) {
-        if(this.audit == null) {
+        if (this.audit == null) {
             this.audit = new Audit();
         }
-        this.audit.setModificationTime(modificationTime);    
+        this.audit.setModificationTime(modificationTime);
     }
-    
-    
 
     // @PrePersist
     // public void logNewUserAttempt() {

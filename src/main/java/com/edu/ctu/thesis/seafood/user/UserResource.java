@@ -26,19 +26,19 @@ public class UserResource {
     @Autowired
     UserService userService;
 
-    @PostMapping
-    public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
-        try {
-            user.setId(null);
-            log.info("Creating new user [{}] ...", user.toString());
-            User createdUser = this.userService.createUser(user);
-            log.info("Created new user [{}] successfully!", createdUser.getId());
-            return ResponseEntity.ok(createdUser);
-        } catch (Exception e) {
-            log.error("Cannot create new user: ", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
+    // @PostMapping
+    // public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
+    //     try {
+    //         user.setId(null);
+    //         log.info("Creating new user [{}] ...", user.toString());
+    //         User createdUser = this.userService.createUser(user);
+    //         log.info("Created new user [{}] successfully!", createdUser.getId());
+    //         return ResponseEntity.ok(createdUser);
+    //     } catch (Exception e) {
+    //         log.error("Cannot create new user: ", e);
+    //         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+    //     }
+    // }
 
     @PutMapping
     public ResponseEntity<?> updateUser(@Valid @RequestBody User user) {
