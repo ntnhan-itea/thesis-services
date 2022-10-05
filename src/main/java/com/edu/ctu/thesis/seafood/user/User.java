@@ -3,6 +3,7 @@ package com.edu.ctu.thesis.seafood.user;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -67,6 +68,10 @@ public class User implements AuditInterface {
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
+    @Column(name = "gender")
+    @Convert(converter = GenderConverter.class)
+    private Gender gender;
+
     @OneToOne
     @JsonIgnore
     @JoinColumn(name = "trai_nuoi_id", nullable = false)
@@ -77,9 +82,16 @@ public class User implements AuditInterface {
     private Audit audit;
 
     public void copy(User user) {
-        this.password = ThesisUtils.encodeBase64(user.newPassword.trim());
         if (StringUtils.isNotBlank(user.fullName)) {
             this.fullName = user.fullName.trim();
+        }
+
+        if (StringUtils.isNotBlank(user.newPassword)) {
+            this.password = ThesisUtils.encodeBase64(user.newPassword.trim());
+        }
+
+        if (user.gender != null) {
+            this.gender = user.gender;
         }
     }
 
