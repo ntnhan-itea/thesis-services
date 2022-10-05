@@ -1,0 +1,1 @@
+ALTER TABLE tbl_user ADD COLUMN dia_chi varchar;
