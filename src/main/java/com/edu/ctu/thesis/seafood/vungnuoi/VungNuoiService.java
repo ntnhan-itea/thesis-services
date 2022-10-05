@@ -74,7 +74,6 @@ public class VungNuoiService {
 
     public VungNuoi findByIdAndUser(Long id, User user) {
         VungNuoi vungNuoi = this.findById(id);
-        this.userService.checkValidUser(user);
         this.userService.checkLoginSucceed(user, vungNuoi.getUser());
         return vungNuoi;
     }

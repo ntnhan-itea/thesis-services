@@ -76,4 +76,10 @@ public class AoNuoiService {
         this.aoNuoiRepository.delete(aoNuoiInDB);
     }
 
+    public AoNuoi findByIdAndUser(Long id, User user) {
+        AoNuoi aoNuoi = this.findById(id);
+        this.userService.checkLoginSucceed(user, aoNuoi.getUser());
+        return aoNuoi;
+    }
+
 }
