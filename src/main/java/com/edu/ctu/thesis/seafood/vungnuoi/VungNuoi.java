@@ -1,7 +1,12 @@
 package com.edu.ctu.thesis.seafood.vungnuoi;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,9 +21,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
@@ -49,6 +56,9 @@ import lombok.Setter;
 // @JsonInclude(value = Include.NON_NULL)
 public class VungNuoi extends Validity {
 
+    private static final String SEMI_COLON = ";";
+    private static final String COMMA = ",";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -66,8 +76,17 @@ public class VungNuoi extends Validity {
     @OneToMany(mappedBy = "vungNuoi", cascade = CascadeType.ALL)
     private List<AoNuoi> aoNuois;
 
-    @OneToMany(mappedBy = "vungNuoi", cascade = CascadeType.ALL)
+    @Transient
+    @JsonProperty(access = Access.READ_WRITE)
     private List<Point> listOfPoint;
+
+    @Column(name = "points", columnDefinition = "TEXT")
+    @JsonIgnore
+    private String points;
+
+    @Column(name = "point_type")
+    @JsonIgnore
+    private String type;
 
     @ManyToOne
     @JsonIgnore
@@ -83,10 +102,45 @@ public class VungNuoi extends Validity {
     @Embedded
     private Audit audit;
 
+    public void convertListPointsToString() {
+        if (!CollectionUtils.isEmpty(this.listOfPoint)) {
+            this.type = this.listOfPoint.stream().filter(Objects::nonNull).findFirst().map(Point::getType).orElse(null);
+
+            List<String> coordinates = this.listOfPoint.stream()
+                    .filter(Objects::nonNull)
+                    .map(Point::getPointString)
+                    .collect(Collectors.toList());
+            this.points = StringUtils.join(coordinates, SEMI_COLON);
+        } else {
+            this.type = null;
+            this.points = null;
+        }
+    }
+
+    public List<Point> getListOfPoint() {
+        if (StringUtils.isBlank(this.points)) {
+            return Collections.emptyList();
+        }
+
+        List<String> tempListPoint = Arrays.asList(this.points.split(SEMI_COLON));
+
+        List<Point> result = tempListPoint.stream().filter(Objects::nonNull).map(e -> {
+            List<String> pointString = Arrays.asList(e.split(COMMA));
+            List<Double> coordinates = pointString.stream()
+                    .filter(Objects::nonNull)
+                    .map(Double::parseDouble)
+                    .collect(Collectors.toList());
+            return new Point(coordinates, this.type);
+        }).collect(Collectors.toList());
+
+        return result;
+    }
+
     public void copy(VungNuoi vungNuoi) {
         this.tenVungNuoi = vungNuoi.tenVungNuoi;
         this.diaChi = vungNuoi.diaChi;
         this.moTa = vungNuoi.moTa;
+        this.listOfPoint = new ArrayList<>(vungNuoi.listOfPoint);
     }
 
     public void clear() {
@@ -110,11 +164,13 @@ public class VungNuoi extends Validity {
     @Override
     public String toString() {
         return "VungNuoi [id=" + id + ", tenVungNuoi=" + tenVungNuoi + ", diaChi=" + diaChi + ", moTa=" + moTa
-                + ", traiNuoi=" + traiNuoi + ", user=" + user + "]";
+                + ", aoNuois=" + aoNuois + ", traiNuoi=" + traiNuoi + ", user=" + user + "]";
     }
 
     @PrePersist
     private void logNewUserAttempt() {
+        // this.convertListPointsToString();
+
         if (this.audit == null) {
             this.audit = new Audit();
         }
@@ -126,6 +182,8 @@ public class VungNuoi extends Validity {
 
     @PreUpdate
     private void logUserUpdateAttempt() {
+        // this.convertListPointsToString();
+
         if (this.audit == null) {
             this.audit = new Audit();
         }

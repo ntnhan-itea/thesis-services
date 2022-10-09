@@ -9,8 +9,6 @@ import org.springframework.util.CollectionUtils;
 
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoiService;
-import com.edu.ctu.thesis.seafood.point.Point;
-import com.edu.ctu.thesis.seafood.point.PointService;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.seafood.user.UserService;
 
@@ -24,44 +22,27 @@ public class VungNuoiService {
     TraiNuoiService traiNuoiService;
 
     @Autowired
-    PointService pointService;
-
-    @Autowired
     UserService userService;
 
     public VungNuoi createVungNuoi(VungNuoi vungNuoi) {
         User user = vungNuoi.getUser();
         TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(user);
         User userInDB = traiNuoiInDB.getUser();
-        
+
         vungNuoi.setTraiNuoi(traiNuoiInDB);
         vungNuoi.setUser(userInDB);
-
-        List<Point> points = vungNuoi.getListOfPoint();
-        if (!CollectionUtils.isEmpty(points)) {
-            points.stream().forEach(e -> e.setVungNuoi(vungNuoi));
-        }
-
-        return this.vungNuoiRepository.save(vungNuoi);
+        return this.save(vungNuoi);
     }
 
     public VungNuoi updateVungNuoi(VungNuoi vungNuoi) {
         VungNuoi vungNuoiInDB = this.findById(vungNuoi.getId());
-        this.createNewPointsWhenUpdate(vungNuoi, vungNuoiInDB);
-
         vungNuoiInDB.copy(vungNuoi);
-        return this.vungNuoiRepository.save(vungNuoiInDB);
-
+        return this.save(vungNuoiInDB);
     }
 
-    private void createNewPointsWhenUpdate(VungNuoi vungNuoi, VungNuoi vungNuoiInDB) {
-        List<Point> points = vungNuoi.getListOfPoint();
-        if (!CollectionUtils.isEmpty(points)) {
-            this.pointService.deleteAllPointByVungNuoiId(vungNuoi.getId());
-
-            points.stream().forEach(e -> e.setVungNuoi(vungNuoiInDB));
-            this.pointService.createPoint(points);
-        }
+    private VungNuoi save(VungNuoi vungNuoi) {
+        vungNuoi.convertListPointsToString();
+        return this.vungNuoiRepository.save(vungNuoi);
     }
 
     private VungNuoi findById(Long id) {
