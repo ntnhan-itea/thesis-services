@@ -64,7 +64,7 @@ public class VungNuoiService {
         }
     }
 
-    public VungNuoi findById(Long id) {
+    private VungNuoi findById(Long id) {
         Optional<VungNuoi> vungNuoi = this.vungNuoiRepository.findById(id);
         if (!vungNuoi.isPresent()) {
             throw new IllegalArgumentException("Vung nuoi [" + id + "] khong tim thay trong DB!");

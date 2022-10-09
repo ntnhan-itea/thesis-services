@@ -62,7 +62,7 @@ public class AoNuoiService {
         }
     }
 
-    public AoNuoi findById(Long id) {
+    private AoNuoi findById(Long id) {
         Optional<AoNuoi> aoNuoi = this.aoNuoiRepository.findById(id);
         if (!aoNuoi.isPresent()) {
             throw new IllegalArgumentException("Cannot find Ao Nuoi [" + id + "] in DB");
