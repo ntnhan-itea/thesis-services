@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 
 import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.audit.AuditInterface;
+import com.edu.ctu.thesis.audit.AuditListener;
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
 import com.edu.ctu.thesis.util.ThesisUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -41,7 +43,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EqualsAndHashCode(of = { "username" })
 @Validated
-// @EntityListeners(AuditListener.class)
+@EntityListeners(AuditListener.class)
 public class User implements AuditInterface {
 
     @Id
