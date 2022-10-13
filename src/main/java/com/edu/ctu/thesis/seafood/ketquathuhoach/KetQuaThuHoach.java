@@ -1,30 +1,39 @@
 package com.edu.ctu.thesis.seafood.ketquathuhoach;
 
 
+import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.edu.ctu.thesis.seafood.nhatky.NhatKy;
+import com.edu.ctu.thesis.validity.Validity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-
-import com.edu.ctu.thesis.seafood.sonhatkynuoitom.SoNhatKyNuoiTom;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "ket_qua_thu_hoach")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class KetQuaThuHoach {
+@EqualsAndHashCode(callSuper = false)
+public class KetQuaThuHoach extends Validity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "dien_tich_ao")
-    private float dienTichAo;
+    private Float dienTichAo;
 
     @Column(name = "luong_tha_giong")
     private Long luongThaGiong;
@@ -39,20 +48,20 @@ public class KetQuaThuHoach {
     private Long tongSoNgayNuoi;
 
     @Column(name = "luong_thuc_an")
-    private float luongThucAnToanBo;
+    private Float luongThucAnToanBo;
 
     @Column(name = "so_luong_thu_hoach")
-    private float soLuongThuHoach;
+    private Float soLuongThuHoach;
 
     @Column(name = "he_so_FCR")
-    private float heSoFCR;
+    private Float heSoFCR;
 
     @Column(name = "co_su_dung_hoa_chat")
     private Boolean coSuDungHoaChatTrongAoNuoi;
 
-    @ManyToOne
-    @JsonIgnore
-    private SoNhatKyNuoiTom soNhatKyNuoiTom;
+    @OneToOne
+    @JoinColumn(name = "nhat_ky_id", nullable = false)
+    private NhatKy nhatKy;
 
 
 }

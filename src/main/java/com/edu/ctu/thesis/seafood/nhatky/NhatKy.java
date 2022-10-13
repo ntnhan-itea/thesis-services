@@ -3,6 +3,7 @@ package com.edu.ctu.thesis.seafood.nhatky;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -18,6 +20,7 @@ import javax.validation.constraints.NotNull;
 
 import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.seafood.aonuoi.AoNuoi;
+import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.validity.Validity;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -67,6 +70,9 @@ public class NhatKy extends Validity {
     @JsonIgnore
     @JoinColumn(name = "ao_nuoi_id", nullable = false)
     private AoNuoi aoNuoi;
+
+    @OneToOne(mappedBy = "nhatKy", cascade = CascadeType.ALL)
+    private KetQuaThuHoach ketQuaThuHoach;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

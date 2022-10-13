@@ -67,7 +67,7 @@ public class TraiNuoi extends Validity implements AuditInterface {
     private String hinhThucNuoi;
 
     @Column(name = "doi_tuoi_nuoi")
-    private String doiTuoiNuoi;
+    private String doiTuoiNuoi; // TODO: change type --> doi tuong nuoi tom
 
     @Column(name = "dien_tich_nuoi")
     private Float dienTichNuoi;

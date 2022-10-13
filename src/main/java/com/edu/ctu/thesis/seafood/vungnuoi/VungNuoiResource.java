@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -45,7 +44,21 @@ public class VungNuoiResource {
         }
     }
 
-    @GetMapping(value = "{id}")
+    // @GetMapping(value = "{id}")
+    // public ResponseEntity<?> getVungNuoiById(@NotNull @PathVariable(value = "id") Long id,
+    //         @Valid @RequestBody User user) {
+    //     try {
+    //         log.info("Getting  Vung Nuoi by id [{}] with User [{}] ...", id, user.toString());
+    //         VungNuoi vungNuoi = this.vungNuoiService.findByIdAndUser(id, user);
+    //         log.info("Got vung nuoi [{}] successfully!", vungNuoi.getId());
+    //         return ResponseEntity.ok(vungNuoi);
+    //     } catch (Exception e) {
+    //         log.error("Cannot get Vung Nuoi: ", e);
+    //         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+    //     }
+    // }
+
+    @PostMapping(value = "{id}")
     public ResponseEntity<?> getVungNuoiById(@NotNull @PathVariable(value = "id") Long id,
             @Valid @RequestBody User user) {
         try {
