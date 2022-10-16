@@ -1,4 +1,4 @@
-package com.edu.ctu.thesis;
+package com.edu.ctu.thesis.customexception;
 
 import java.time.LocalDateTime;
 import java.util.Map;
