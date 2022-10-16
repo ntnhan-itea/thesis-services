@@ -81,7 +81,7 @@ public class UserService {
         String usernameInDB = userInDB.getUsername().trim();
         String passwordInDB = userInDB.getPassword().trim();
 
-        if (!usernameLogin.equals(usernameInDB) || !passwordLogin.equals(passwordInDB)) {
+        if (!usernameLogin.equalsIgnoreCase(usernameInDB) || !passwordLogin.equals(passwordInDB)) {
             throw new IllegalArgumentException(INVALID_ACCOUNT);
         }
     }
