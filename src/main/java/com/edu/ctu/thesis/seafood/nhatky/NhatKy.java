@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 
 import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.seafood.aonuoi.AoNuoi;
+import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoi;
 import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.validity.Validity;
@@ -73,6 +74,9 @@ public class NhatKy extends Validity {
 
     @OneToOne(mappedBy = "nhatKy", cascade = CascadeType.ALL)
     private KetQuaThuHoach ketQuaThuHoach;
+
+    @OneToOne(mappedBy = "nhatKy", cascade = CascadeType.ALL)
+    private ChuanBiAoNuoi chuanBiAoNuoi;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

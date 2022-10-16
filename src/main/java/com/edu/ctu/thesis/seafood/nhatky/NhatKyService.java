@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.edu.ctu.thesis.seafood.aonuoi.AoNuoi;
 import com.edu.ctu.thesis.seafood.aonuoi.AoNuoiService;
+import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoi;
+import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoiService;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.seafood.user.UserService;
 
@@ -22,11 +24,24 @@ public class NhatKyService {
     @Autowired
     UserService userService;
 
+    @Autowired
+    ChuanBiAoNuoiService chuanBiAoNuoiService;
+
     public NhatKy createNhatKy(Long aoNuoiId, NhatKy nhatKy) {
         AoNuoi aoNuoiInDB = this.aoNuoiService.findByIdAndUser(aoNuoiId, nhatKy.getUser());
 
+        User userInDB = aoNuoiInDB.getUser();
         nhatKy.setAoNuoi(aoNuoiInDB);
-        nhatKy.setUser(aoNuoiInDB.getUser());
+        nhatKy.setUser(userInDB);
+
+        ChuanBiAoNuoi chuanBiAoNuoi = nhatKy.getChuanBiAoNuoi();
+        if(chuanBiAoNuoi == null) {
+            chuanBiAoNuoi = new ChuanBiAoNuoi();
+        }
+        chuanBiAoNuoi.setNhatKy(nhatKy);
+        chuanBiAoNuoi.setUser(userInDB);
+        nhatKy.setChuanBiAoNuoi(chuanBiAoNuoi);
+
         return this.nhatKyRepository.save(nhatKy);
     }
 
@@ -50,5 +65,6 @@ public class NhatKyService {
         }
         return nhatKy.get();
     }
+
 
 }
