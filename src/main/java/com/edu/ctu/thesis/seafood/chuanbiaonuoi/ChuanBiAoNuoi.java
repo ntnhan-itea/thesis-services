@@ -48,7 +48,7 @@ public class ChuanBiAoNuoi extends Validity {
     private Long id;
 
     @Column(name = "ngay_bat_dau_cai_tao")
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-mm-dd")
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate ngayBatDauCaiTao;
@@ -81,5 +81,18 @@ public class ChuanBiAoNuoi extends Validity {
     @JoinColumn(name = "user_id", nullable = false)
     @JsonProperty(access = Access.WRITE_ONLY)
     private User user;
+
+    public void copy(ChuanBiAoNuoi chuanBiAoNuoi) {
+        this.ngayBatDauCaiTao = chuanBiAoNuoi.ngayBatDauCaiTao;
+        this.doPhCuaDat = chuanBiAoNuoi.doPhCuaDat;
+        this.congSuatMayQuatNuoc = chuanBiAoNuoi.congSuatMayQuatNuoc;
+        this.hinhThucCaiTao = chuanBiAoNuoi.hinhThucCaiTao;
+        this.soCanhQuatTrenMay = chuanBiAoNuoi.soCanhQuatTrenMay;
+        this.nenDay = chuanBiAoNuoi.nenDay;
+        // TODO
+        // this.thanhPhanCaiTaos = chuanBiAoNuoi.thanhPhanCaiTaos;
+    }
+
+    
 
 }

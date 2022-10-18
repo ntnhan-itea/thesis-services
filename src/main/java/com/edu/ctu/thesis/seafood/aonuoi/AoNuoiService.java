@@ -22,6 +22,7 @@ public class AoNuoiService {
     @Autowired
     VungNuoiService vungNuoiService;
 
+
     public AoNuoi createAoNuoi(Long vungNuoiId, AoNuoi aoNuoi) {
         User user = aoNuoi.getUser();
         VungNuoi vungNuoiInDB = this.vungNuoiService.findByIdAndUser(vungNuoiId, user);

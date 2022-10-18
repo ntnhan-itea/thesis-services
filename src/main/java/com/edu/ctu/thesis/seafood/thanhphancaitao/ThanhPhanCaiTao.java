@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoi;
@@ -42,7 +43,8 @@ public class ThanhPhanCaiTao extends Validity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ten")
+    @Column(name = "ten", nullable = false)
+    @NotBlank(message = "Ten thanh phan khong duoc bo trong!")
     private String ten;
 
     @Column(name = "loai")
@@ -52,7 +54,7 @@ public class ThanhPhanCaiTao extends Validity {
     private Integer soLuong;
 
     @Column(name = "ngay_xu_ly")
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-mm-dd")
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate ngayXuLy;
@@ -72,18 +74,11 @@ public class ThanhPhanCaiTao extends Validity {
     private User user;
 
     public void copy(ThanhPhanCaiTao thanhPhanCaiTao) {
+        this.ten = thanhPhanCaiTao.ten;
         this.loai = thanhPhanCaiTao.loai;
         this.soLuong = thanhPhanCaiTao.soLuong;
         this.ngayXuLy = thanhPhanCaiTao.ngayXuLy;
         this.ghiChu = thanhPhanCaiTao.ghiChu;
-    }
-
-    public void copy(String loai, Integer soLuong,
-            LocalDate ngayXuLy, String ghiChu) {
-        this.loai = loai;
-        this.soLuong = soLuong;
-        this.ngayXuLy = ngayXuLy;
-        this.ghiChu = ghiChu;
     }
 
 }

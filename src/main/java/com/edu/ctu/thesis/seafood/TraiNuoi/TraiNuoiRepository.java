@@ -11,7 +11,7 @@ public interface TraiNuoiRepository extends JpaRepository<TraiNuoi, Long> {
     @Query(value= "FROM TraiNuoi tn WHERE tn.user.username = :username and tn.user.password = :password")
     TraiNuoi findByAccount(@Param("username") String username, @Param("password") String password);
 
-    // @Query(value= "FROM TraiNuoi tn WHERE tn.user.username = :username and tn.user.password = :password")
-    // TraiNuoi findByUsername(String username);
+    // @Query(value= "FROM TraiNuoi tn WHERE tn.id = :id")
+    // Optional<TraiNuoi> findById(Long id);
 
 }

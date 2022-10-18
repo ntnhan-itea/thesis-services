@@ -72,11 +72,11 @@ public class TraiNuoi extends Validity implements AuditInterface {
     @Column(name = "dien_tich_nuoi")
     private Float dienTichNuoi;
 
-    @OneToOne(mappedBy = "traiNuoi", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "traiNuoi", cascade = CascadeType.ALL)
     @NotNull(message = "User should not be null")
     private User user;
 
-    @OneToMany(mappedBy = "traiNuoi", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "traiNuoi", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<VungNuoi> vungNuois;
 
     // @JsonIgnore
