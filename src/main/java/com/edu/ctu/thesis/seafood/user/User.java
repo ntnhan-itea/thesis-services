@@ -97,6 +97,18 @@ public class User implements AuditInterface {
         }
     }
 
+    public String getValidUsername() {
+        return StringUtils.isBlank(this.username) ? null : this.username.trim().toLowerCase();
+    }
+
+    public String getValidPassword() {
+        return StringUtils.isBlank(this.password) ? null : this.password.trim();
+    }
+
+    public String getEncodedPassword() {
+        return StringUtils.isBlank(this.password) ? null : ThesisUtils.encodeBase64(this.password.trim());
+    }
+
     public void clear() {
         this.username = null;
         this.password = null;

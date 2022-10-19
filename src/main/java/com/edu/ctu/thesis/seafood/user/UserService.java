@@ -75,11 +75,11 @@ public class UserService {
         this.checkValidUser(userLogin);
         this.checkValidUser(userInDB);
 
-        String usernameLogin = userLogin.getUsername().trim();
-        String passwordLogin = ThesisUtils.encodeBase64(userLogin.getPassword().trim());
+        String usernameLogin = userLogin.getValidUsername();
+        String passwordLogin = userLogin.getEncodedPassword();
 
-        String usernameInDB = userInDB.getUsername().trim();
-        String passwordInDB = userInDB.getPassword().trim();
+        String usernameInDB = userInDB.getValidUsername();
+        String passwordInDB = userInDB.getValidPassword();
 
         if (!usernameLogin.equalsIgnoreCase(usernameInDB) || !passwordLogin.equals(passwordInDB)) {
             throw new IllegalArgumentException(INVALID_ACCOUNT);
