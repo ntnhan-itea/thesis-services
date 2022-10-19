@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Audit {
             
-    @Column(name = "creation_time")
+    @Column(name = "creation_time", nullable = false)
     private LocalDateTime creationTime;
 
     @Column(name = "creation_user")
     private String creationUser;
 
-    @Column(name = "modification_time")
+    @Column(name = "modification_time", nullable = false)
     private LocalDateTime modificationTime;
 
     @Column(name = "modification_user")

@@ -50,6 +50,21 @@ public class AoNuoiResource {
         }
     }
 
+    @PostMapping(path = "{id}/nhat-ky/get-latest-added")
+    public ResponseEntity<?> getLatestNhatKy(
+            @NotNull @PathVariable(value = "id") Long id,
+            @Valid @RequestBody User user) {
+        try {
+            log.info("Getting latest Nhat Ky of Ao Nuoi [{}] ...", id);
+            NhatKy nhatKy = this.serviceHolder.getLastestNhatKyOfAoNuoi(id, user);
+            log.info("Got latest Nhat Ky [{}]", nhatKy.getId());
+            return ResponseEntity.ok(nhatKy);
+        } catch (Exception e) {
+            log.error("Cannot get latest Nhat Ky: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
     @PostMapping(value = "{vungNuoiId}")
     public ResponseEntity<?> createAoNuoi(@NotNull @PathVariable(value = "vungNuoiId") Long vungNuoiId,
             @Valid @RequestBody AoNuoi aoNuoi) {

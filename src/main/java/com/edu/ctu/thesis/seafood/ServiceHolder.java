@@ -1,5 +1,6 @@
 package com.edu.ctu.thesis.seafood;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -91,6 +92,13 @@ public class ServiceHolder {
         }
 
         return this.chuanBiAoNuoiService.createChuanBiAoNuoi(chuanBiAoNuoi);
+    }
+
+    public NhatKy getLastestNhatKyOfAoNuoi(Long nhatKyId, User user) {
+        AoNuoi aoNuoiInDB = this.aoNuoiService.findByIdAndUser(nhatKyId, user);
+        List<NhatKy> nhatKies = aoNuoiInDB.getListOfNhatKy();
+        NhatKy nhatKy = nhatKies.stream().max(Comparator.comparing(NhatKy::getLatestTimeAdded)).get();
+        return nhatKy;
     }
 
 }
