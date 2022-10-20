@@ -55,6 +55,10 @@ public class TraiNuoiService {
         return this.traiNuoiRepository.save(traiNuoiInDB);
     }
 
+    public void remove(Long id) {
+        this.traiNuoiRepository.delete(this.findById(id));
+    }
+
     public TraiNuoi findById(Long id) {
         Optional<TraiNuoi> traiNuoiInDB = this.traiNuoiRepository.findById(id);
         if (!traiNuoiInDB.isPresent()) {

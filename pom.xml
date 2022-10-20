@@ -67,6 +67,14 @@
 			<artifactId>flyway-core</artifactId>
 			<version>7.8.2</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.12</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

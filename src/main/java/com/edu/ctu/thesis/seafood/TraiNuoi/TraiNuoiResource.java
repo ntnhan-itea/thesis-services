@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +19,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.edu.ctu.thesis.seafood.user.User;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.extern.log4j.Log4j2;
 
 @RestController
@@ -30,7 +35,9 @@ public class TraiNuoiResource {
     TraiNuoiService traiNuoiService;
 
     @PostMapping
-    public ResponseEntity<?> creatTraiNuoi(@Valid @RequestBody TraiNuoi traiNuoi) {
+    @Operation(summary = "Tao Trai Nuoi")
+    @ApiResponse(responseCode = "200", description = "Return TRai Nuoi", content = @Content(schema = @Schema(implementation = TraiNuoi.class)))
+    public ResponseEntity<?> createTraiNuoi(@Valid @RequestBody TraiNuoi traiNuoi) {
         try {
             traiNuoi.setId(null);
             log.info("Creating new trai nuoi [{}] ...", traiNuoi.toString());
@@ -39,6 +46,19 @@ public class TraiNuoiResource {
             return ResponseEntity.ok(createdTraiNuoi);
         } catch (Exception e) {
             log.error("Cannot create new trai nuoi: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<?> removeTraiNuoi(@NotNull @PathVariable(value = "id") Long id) {
+        try {
+            log.info("Removing trai nuoi [{}] ...", id);
+            this.traiNuoiService.remove(id);
+            log.info("Removed trai nuoi [{}] successfully!", id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e) {
+            log.error("Cannot remove trai nuoi: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
