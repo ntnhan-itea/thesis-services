@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.edu.ctu.thesis.seafood.ServiceHolder;
+import com.edu.ctu.thesis.seafood.aonuoi.AoNuoi;
 import com.edu.ctu.thesis.seafood.user.User;
 
 import lombok.extern.log4j.Log4j2;
@@ -30,35 +32,10 @@ public class VungNuoiResource {
     @Autowired
     VungNuoiService vungNuoiService;
 
-    @PostMapping
-    public ResponseEntity<?> createVungNuoi(@Valid @RequestBody VungNuoi vungNuoi) {
-        try {
-            vungNuoi.setId(null);
-            log.info("Creating new vung nuoi [{}] ...", vungNuoi.toString());
-            VungNuoi vungNuoiCreated = this.vungNuoiService.createVungNuoi(vungNuoi);
-            log.info("Created vung nuoi [{}] successfully!", vungNuoiCreated.getTenVungNuoi());
-            return ResponseEntity.ok(vungNuoiCreated);
-        } catch (Exception e) {
-            log.error("Cannot create new vung nuoi: ", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
+    @Autowired
+    ServiceHolder serviceHolder;
 
-    // @GetMapping(value = "{id}")
-    // public ResponseEntity<?> getVungNuoiById(@NotNull @PathVariable(value = "id") Long id,
-    //         @Valid @RequestBody User user) {
-    //     try {
-    //         log.info("Getting  Vung Nuoi by id [{}] with User [{}] ...", id, user.toString());
-    //         VungNuoi vungNuoi = this.vungNuoiService.findByIdAndUser(id, user);
-    //         log.info("Got vung nuoi [{}] successfully!", vungNuoi.getId());
-    //         return ResponseEntity.ok(vungNuoi);
-    //     } catch (Exception e) {
-    //         log.error("Cannot get Vung Nuoi: ", e);
-    //         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-    //     }
-    // }
-
-    @PostMapping(value = "{id}")
+    @PostMapping(value = "get-by-id/{id}")
     public ResponseEntity<?> getVungNuoiById(@NotNull @PathVariable(value = "id") Long id,
             @Valid @RequestBody User user) {
         try {
@@ -94,9 +71,23 @@ public class VungNuoiResource {
             log.info("Removing vung nuoi [{}] ...", id);
             this.vungNuoiService.removeVungNuoi(id, user);
             log.info("Removed vung nuoi [{}] successfully!", id);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body("Removed Vung Nuoi [" + id + "] successfully!");
         } catch (Exception e) {
             log.error("Cannot remove vung nuoi: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    
+    @PostMapping(path = "{id}/ao-nuoi")
+    public ResponseEntity<?> createAoNuoi(@NotNull @PathVariable(value = "id") Long id ,@Valid @RequestBody AoNuoi aoNuoi) {
+        try {
+            log.info("Creating new Ao Nuoi [{}] ...", aoNuoi.toString());
+            AoNuoi aoNuoiCreated = this.serviceHolder.createAoNuoi(id, aoNuoi);
+            log.info("Created Ao Nuoi [{}] successfully!", aoNuoiCreated.getTenAo());
+            return ResponseEntity.ok(aoNuoiCreated);
+        } catch (Exception e) {
+            log.error("Cannot create new Ao Nuoi: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

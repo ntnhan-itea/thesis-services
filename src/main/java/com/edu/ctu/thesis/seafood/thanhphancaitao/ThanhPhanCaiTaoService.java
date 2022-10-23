@@ -18,7 +18,6 @@ public class ThanhPhanCaiTaoService {
     UserService userService;
 
     public ThanhPhanCaiTao create(ThanhPhanCaiTao thanhPhanCaiTao) {
-        thanhPhanCaiTao.setId(null);
         return this.thanhPhanCaiTaoRepository.save(thanhPhanCaiTao);
     }
 
@@ -30,6 +29,7 @@ public class ThanhPhanCaiTaoService {
 
     public void remove(Long id, User user) {
         ThanhPhanCaiTao thanhPhanCaiTaoInDB = this.findById(id, user);
+        thanhPhanCaiTaoInDB.getChuanBiAoNuoi().setThanhPhanCaiTaos(null);
         this.thanhPhanCaiTaoRepository.delete(thanhPhanCaiTaoInDB);
     }
 

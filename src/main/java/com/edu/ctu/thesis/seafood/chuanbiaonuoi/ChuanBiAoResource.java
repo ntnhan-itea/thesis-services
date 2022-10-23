@@ -55,7 +55,7 @@ public class ChuanBiAoResource {
         try {
             chuanBiAoNuoi.setId(id);
             log.info("Updating Chuan Bi Ao Nuoi [{}] ...", chuanBiAoNuoi.toString());
-            ChuanBiAoNuoi ChuanBiAoNuoiUpdated = this.chuanBiAoNuoiService.updateChuanBiAoNuoi(chuanBiAoNuoi);
+            ChuanBiAoNuoi ChuanBiAoNuoiUpdated = this.chuanBiAoNuoiService.update(chuanBiAoNuoi);
             log.info("updated Chuan Bi Ao Nuoi [{}] successfully!", ChuanBiAoNuoiUpdated.getId());
             return ResponseEntity.ok(ChuanBiAoNuoiUpdated);
         } catch (Exception e) {
@@ -71,7 +71,7 @@ public class ChuanBiAoResource {
             log.info("Removing Chuan Bi Ao Nuoi [{}] with user [{}] ...", id, user);
             this.chuanBiAoNuoiService.removeById(id, user);
             log.info("Removed Chuan Bi Ao Nuoi [{}] successfully!", id);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body("Removed Chuan Bi Ao Nuoi [" + id + "] successfully!");
         } catch (Exception e) {
             log.error("Cannot remove Chuan Bi Ao Nuoi: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

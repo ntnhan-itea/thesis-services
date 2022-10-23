@@ -65,21 +65,6 @@ public class AoNuoiResource {
         }
     }
 
-    @PostMapping(value = "{vungNuoiId}")
-    public ResponseEntity<?> createAoNuoi(@NotNull @PathVariable(value = "vungNuoiId") Long vungNuoiId,
-            @Valid @RequestBody AoNuoi aoNuoi) {
-        try {
-            aoNuoi.setId(null);
-            log.info("Creating ao nuoi [{}] of Vung Nuoi [{}] ...", aoNuoi.toString(), vungNuoiId);
-            AoNuoi createdAoNuoi = this.aoNuoiService.createAoNuoi(vungNuoiId, aoNuoi);
-            log.info("Created ao nuoi [{}] of Vung Nuoi [{}] successfully!", createdAoNuoi.getId(), vungNuoiId);
-            return ResponseEntity.ok(createdAoNuoi);
-        } catch (Exception e) {
-            log.error("Cannot create new ao nuoi: ", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
-
     @PostMapping(value = "get-by-id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAoNuoiById(@NotNull @PathVariable(value = "id") Long id,
             @Valid @RequestBody User user) {
@@ -116,7 +101,7 @@ public class AoNuoiResource {
             log.info("Removing Ao Nuoi [{}] with user [{}] ...", id, user);
             this.aoNuoiService.removeAoNuoi(id, user);
             log.info("Removed Ao Nuoi [{}] successfully!", id);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body("Removed Ao Nuoi [" + id + "] successfully!");
         } catch (Exception e) {
             log.error("Cannot remove Ao Nuoi: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

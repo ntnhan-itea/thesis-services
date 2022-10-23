@@ -19,11 +19,20 @@ public class ChuanBiAoNuoiService {
         this.userService = userService;
     }
 
-    public ChuanBiAoNuoi createChuanBiAoNuoi(ChuanBiAoNuoi chuanBiAoNuoi) {
+    public ChuanBiAoNuoi create(ChuanBiAoNuoi chuanBiAoNuoi) {
+        this.isNotExistNhatKyInDB(chuanBiAoNuoi.getNhatKy().getId());
         return this.chuanBiAoNuoiRepository.save(chuanBiAoNuoi);
     }
 
-    public ChuanBiAoNuoi updateChuanBiAoNuoi(ChuanBiAoNuoi chuanBiAoNuoi) {
+    private void isNotExistNhatKyInDB(Long nhatKyId) {
+        ChuanBiAoNuoi chuanBiAoNuoi = this.chuanBiAoNuoiRepository.findByNhatKyId(nhatKyId);
+        if (chuanBiAoNuoi != null) {
+            throw new IllegalArgumentException("Nhat ky [" + chuanBiAoNuoi.getNhatKy().getId()
+                    + "] is already exist with relationship Chuan Bi Ao Nuoi [" + chuanBiAoNuoi.getId() + "]");
+        }
+    }
+
+    public ChuanBiAoNuoi update(ChuanBiAoNuoi chuanBiAoNuoi) {
         ChuanBiAoNuoi chuanBiAoNuoiInDB = this.findById(chuanBiAoNuoi.getId());
         this.userService.checkLoginSucceed(chuanBiAoNuoi.getUser(), chuanBiAoNuoiInDB.getUser());
         chuanBiAoNuoiInDB.copy(chuanBiAoNuoi);

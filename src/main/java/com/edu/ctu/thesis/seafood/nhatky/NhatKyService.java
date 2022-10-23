@@ -39,6 +39,7 @@ public class NhatKyService {
 
     public void remove(Long id, User user) {
         NhatKy nhatKyInDB = this.findById(id, user);
+        nhatKyInDB.getAoNuoi().setListOfNhatKy(null);
         this.nhatKyRepository.delete(nhatKyInDB);
     }
 

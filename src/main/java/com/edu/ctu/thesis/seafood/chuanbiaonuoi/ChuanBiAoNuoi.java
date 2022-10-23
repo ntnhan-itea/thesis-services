@@ -21,8 +21,8 @@ import com.edu.ctu.thesis.seafood.thanhphancaitao.ThanhPhanCaiTao;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.validity.Validity;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -45,6 +45,7 @@ public class ChuanBiAoNuoi extends Validity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = Access.READ_ONLY)
     private Long id;
 
     @Column(name = "ngay_bat_dau_cai_tao")
@@ -70,7 +71,7 @@ public class ChuanBiAoNuoi extends Validity {
     private NenDay nenDay;
 
     @OneToOne
-    @JoinColumn(name = "nhat_ky_id", nullable = false)
+    @JoinColumn(name = "nhat_ky_id", nullable = false, unique = true)
     @JsonIgnore
     private NhatKy nhatKy;
 

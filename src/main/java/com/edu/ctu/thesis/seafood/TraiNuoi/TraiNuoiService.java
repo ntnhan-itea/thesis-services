@@ -56,7 +56,9 @@ public class TraiNuoiService {
     }
 
     public void remove(Long id) {
-        this.traiNuoiRepository.delete(this.findById(id));
+        TraiNuoi traiNuoi = this.findById(id);
+        traiNuoi.getUser().setTraiNuoi(null);
+        this.traiNuoiRepository.delete(traiNuoi);
     }
 
     public TraiNuoi findById(Long id) {
@@ -69,8 +71,8 @@ public class TraiNuoiService {
 
     public TraiNuoi getTraiNuoi(User user) {
         this.userService.checkValidUser(user);
-        String username = user.getUsername().trim();
-        String password = ThesisUtils.encodeBase64(user.getPassword().trim());
+        String username = user.getValidUsername();
+        String password = user.getEncodedPassword();
 
         TraiNuoi traiNuoiInDB = this.traiNuoiRepository.findByAccount(username, password);
         if (Objects.isNull(traiNuoiInDB)) {
@@ -102,6 +104,7 @@ public class TraiNuoiService {
             }
         }
 
+        traiNuoiInDB.getUser().setTraiNuoi(null);
         return this.traiNuoiRepository.save(traiNuoiInDB);
     }
 }

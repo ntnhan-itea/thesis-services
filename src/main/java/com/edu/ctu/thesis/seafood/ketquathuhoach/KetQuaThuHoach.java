@@ -60,7 +60,7 @@ public class KetQuaThuHoach extends Validity {
     private Boolean coSuDungHoaChatTrongAoNuoi;
 
     @OneToOne
-    @JoinColumn(name = "nhat_ky_id", nullable = false)
+    @JoinColumn(name = "nhat_ky_id", nullable = false, unique = true)
     private NhatKy nhatKy;
 
 

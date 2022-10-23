@@ -22,13 +22,14 @@ import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.seafood.aonuoi.AoNuoi;
 import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoi;
 import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
+import com.edu.ctu.thesis.seafood.thagiong.ThaGiong;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.validity.Validity;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -80,6 +81,9 @@ public class NhatKy extends Validity {
     @OneToOne(mappedBy = "nhatKy", cascade = CascadeType.ALL)
     private ChuanBiAoNuoi chuanBiAoNuoi;
 
+    @OneToOne(mappedBy = "nhatKy", cascade = CascadeType.ALL)
+    private ThaGiong thaGiong;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonProperty(access = Access.WRITE_ONLY)
@@ -118,7 +122,7 @@ public class NhatKy extends Validity {
     @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    public LocalDateTime getLatestTimeAdded() {
+    public LocalDateTime getCreationTime() {
         return this.audit.getCreationTime();
     }
 }

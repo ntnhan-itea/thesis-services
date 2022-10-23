@@ -2,6 +2,7 @@ package com.edu.ctu.thesis.seafood.user;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embedded;
@@ -10,7 +11,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -74,9 +74,7 @@ public class User implements AuditInterface {
     @Convert(converter = GenderConverter.class)
     private Gender gender;
 
-    @OneToOne
-    @JsonIgnore
-    @JoinColumn(name = "trai_nuoi_id", nullable = false)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private TraiNuoi traiNuoi;
 
     @JsonIgnore

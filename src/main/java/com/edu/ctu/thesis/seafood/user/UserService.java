@@ -19,14 +19,27 @@ public class UserService {
 
     public User createUser(User user) {
         this.checkUserIsNotExistInDb(user);
-        String username = user.getUsername().trim();
-        String password = ThesisUtils.encodeBase64(user.getPassword().trim());
+        String username = user.getValidUsername();
+        String password = user.getEncodedPassword();
 
         user.setUsername(username);
         user.setPassword(password);
 
         TraiNuoi traiNuoi = user.getTraiNuoi();
         traiNuoi.setUser(user);
+        return this.userRepository.save(user);
+    }
+
+    public User createUser(TraiNuoi traiNuoi) {
+        User user = traiNuoi.getUser();
+        this.checkUserIsNotExistInDb(user);
+        String username = user.getValidUsername();
+        String password = user.getEncodedPassword();
+
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setTraiNuoi(traiNuoi);
+ 
         return this.userRepository.save(user);
     }
 
@@ -50,7 +63,7 @@ public class UserService {
 
     public void checkUserIsNotExistInDb(User user) {
         this.checkValidUser(user);
-        String username = user.getUsername().trim();
+        String username = user.getValidUsername();
 
         User userInDB = this.userRepository.findByUsername(username);
         if (Objects.nonNull(userInDB)) {

@@ -25,12 +25,6 @@ public class VungNuoiService {
     UserService userService;
 
     public VungNuoi createVungNuoi(VungNuoi vungNuoi) {
-        User user = vungNuoi.getUser();
-        TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(user);
-        User userInDB = traiNuoiInDB.getUser();
-
-        vungNuoi.setTraiNuoi(traiNuoiInDB);
-        vungNuoi.setUser(userInDB);
         return this.save(vungNuoi);
     }
 

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.seafood.user.UserService;
-import com.edu.ctu.thesis.seafood.vungnuoi.VungNuoi;
 import com.edu.ctu.thesis.seafood.vungnuoi.VungNuoiService;
 
 @Service
@@ -23,11 +22,7 @@ public class AoNuoiService {
     VungNuoiService vungNuoiService;
 
 
-    public AoNuoi createAoNuoi(Long vungNuoiId, AoNuoi aoNuoi) {
-        User user = aoNuoi.getUser();
-        VungNuoi vungNuoiInDB = this.vungNuoiService.findByIdAndUser(vungNuoiId, user);
-        aoNuoi.setVungNuoi(vungNuoiInDB);
-        aoNuoi.setUser(vungNuoiInDB.getUser());
+    public AoNuoi createAoNuoi(AoNuoi aoNuoi) {
         return this.save(aoNuoi);
     }
 
@@ -52,8 +47,8 @@ public class AoNuoiService {
     }
 
     public void removeAoNuoi(Long id, User user) {
-        AoNuoi aoNuoiInDB = this.findById(id);
-        this.userService.checkLoginSucceed(user, aoNuoiInDB.getUser());
+        AoNuoi aoNuoiInDB = this.findByIdAndUser(id, user);
+        aoNuoiInDB.getVungNuoi().setAoNuois(null);
         this.aoNuoiRepository.delete(aoNuoiInDB);
     }
 

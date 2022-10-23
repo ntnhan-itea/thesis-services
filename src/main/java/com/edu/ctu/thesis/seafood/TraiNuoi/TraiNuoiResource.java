@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.edu.ctu.thesis.seafood.ServiceHolder;
 import com.edu.ctu.thesis.seafood.user.User;
+import com.edu.ctu.thesis.seafood.vungnuoi.VungNuoi;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,14 +36,17 @@ public class TraiNuoiResource {
     @Autowired
     TraiNuoiService traiNuoiService;
 
+    @Autowired
+    ServiceHolder serviceHolder;
+
     @PostMapping
-    @Operation(summary = "Tao Trai Nuoi")
-    @ApiResponse(responseCode = "200", description = "Return TRai Nuoi", content = @Content(schema = @Schema(implementation = TraiNuoi.class)))
+    @Operation(summary = "Create Trai Nuoi")
+    @ApiResponse(responseCode = "200", description = "Return Trai Nuoi", content = @Content(schema = @Schema(implementation = TraiNuoi.class)))
     public ResponseEntity<?> createTraiNuoi(@Valid @RequestBody TraiNuoi traiNuoi) {
         try {
             traiNuoi.setId(null);
             log.info("Creating new trai nuoi [{}] ...", traiNuoi.toString());
-            TraiNuoi createdTraiNuoi = this.traiNuoiService.createTraiNuoi(traiNuoi);
+            TraiNuoi createdTraiNuoi = this.serviceHolder.createTraiNuoi(traiNuoi);
             log.info("Created new trai nuoi [{}] successfully!", createdTraiNuoi.getId());
             return ResponseEntity.ok(createdTraiNuoi);
         } catch (Exception e) {
@@ -56,33 +61,16 @@ public class TraiNuoiResource {
             log.info("Removing trai nuoi [{}] ...", id);
             this.traiNuoiService.remove(id);
             log.info("Removed trai nuoi [{}] successfully!", id);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body("Removed Trai Nuoi [" + id + "] successfully!");
         } catch (Exception e) {
             log.error("Cannot remove trai nuoi: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
-    // @GetMapping(path = "login")
-    // public ResponseEntity<?> getTraiNuoi(@NotBlank @RequestParam("username") String username,
-    //         @NotBlank @RequestParam("password") String password) {
-    //     try {
-    //         User user = new User();
-    //         user.setUsername(username);
-    //         user.setPassword(password);
-
-    //         log.info("Getting trai nuoi [{}] ...", user.toString());
-    //         TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(user);
-    //         log.info("Got trai nuoi [{}] successfully!", traiNuoiInDB.getId());
-    //         return ResponseEntity.ok(traiNuoiInDB);
-    //     } catch (Exception e) {
-    //         log.error("Cannot get trai nuoi: ", e);
-    //         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-    //     }
-    // }
-
     @PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateTraiNuoi(@NotNull @PathVariable(value = "id") Long traiNuoiId, @Valid @RequestBody TraiNuoi traiNuoi) {
+    public ResponseEntity<?> updateTraiNuoi(@NotNull @PathVariable(value = "id") Long traiNuoiId,
+            @Valid @RequestBody TraiNuoi traiNuoi) {
         try {
             log.info("Updating trai nuoi [{}] ...", traiNuoi.toString());
             traiNuoi.setId(traiNuoiId);
@@ -99,7 +87,6 @@ public class TraiNuoiResource {
     @PostMapping(path = "login")
     public ResponseEntity<?> getTraiNuoi(@Valid @RequestBody User user) {
         try {
-
             log.info("Getting trai nuoi [{}] ...", user.toString());
             TraiNuoi traiNuoiInDB = this.traiNuoiService.getTraiNuoi(user);
             log.info("Got trai nuoi [{}] successfully!", traiNuoiInDB.getId());
@@ -110,6 +97,19 @@ public class TraiNuoiResource {
         }
     }
 
-   
+    @PostMapping(path = "vung-nuoi")
+    @Operation(summary = "Create Vung Nuoi")
+    @ApiResponse(responseCode = "200", description = "Return Vung Nuoi", content = @Content(schema = @Schema(implementation = VungNuoi.class)))
+    public ResponseEntity<?> createVungNuoi(@Valid @RequestBody VungNuoi vungNuoi) {
+        try {
+            log.info("Creating new Vung Nuoi [{}] ...", vungNuoi.toString());
+            VungNuoi vungNuoiCreated = this.serviceHolder.createVungNuoi(vungNuoi);
+            log.info("Created new Vung Nuoi [{}] successfully!", vungNuoiCreated.getId());
+            return ResponseEntity.ok(vungNuoiCreated);
+        } catch (Exception e) {
+            log.error("Cannot create new Vung Nuoi: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
 
 }

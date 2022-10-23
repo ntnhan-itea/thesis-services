@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.edu.ctu.thesis.seafood.ServiceHolder;
 import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoi;
+import com.edu.ctu.thesis.seafood.thagiong.ThaGiong;
 import com.edu.ctu.thesis.seafood.user.User;
 
 import lombok.extern.log4j.Log4j2;
@@ -48,34 +49,6 @@ public class NhatKyResource {
         }
     }
 
-    @PostMapping(path = "{id}/chuan-bi-ao-nuoi")
-    public ResponseEntity<?> createChuanBiAoNuoi(@NotNull @PathVariable(value = "id") Long id, @Valid @RequestBody ChuanBiAoNuoi chuanBiAoNuoi ) {
-        try {
-            log.info("Creating Chuan Bi Ao Nuoi [{}] of Nhat Ky [{}] ...", chuanBiAoNuoi.toString(), id);
-            ChuanBiAoNuoi chuanBiAoNuoiCreated = this.serviceHolder.createChuanBiAoNuoi(id, chuanBiAoNuoi);
-            log.info("Created Chuan Bi Ao Nuoi [{}] of Nhat Ky [{}] ...", chuanBiAoNuoiCreated.getId(), id);
-            return ResponseEntity.ok(chuanBiAoNuoiCreated);
-        } catch (Exception e) {
-            log.error("Cannot create Chuan Bi Ao Nuoi: ", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
-
-    @PostMapping(value = "{aoNuoiId}")
-    public ResponseEntity<?> create(
-            @NotNull @PathVariable(value = "aoNuoiId") Long id,
-            @Valid @RequestBody NhatKy nhatKy) {
-        try {
-            log.info("Creating Nhat Ky [{}] of Ao Nuoi [{}] ...", nhatKy, id);
-            NhatKy nhatKyCreated = this.serviceHolder.createNhatKy(id, nhatKy);
-            log.info("Created Nhat Ky [{}]", nhatKyCreated.getId());
-            return ResponseEntity.ok(nhatKyCreated);
-        } catch (Exception e) {
-            log.error("Cannot create Nhat Ky: ", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
-
     @PutMapping(value = "{id}")
     public ResponseEntity<?> update(
             @NotNull @PathVariable(value = "id") Long id,
@@ -99,9 +72,37 @@ public class NhatKyResource {
             log.info("Removing Nhat Ky [{}] with user [{}] ...", id, user);
             this.nhatKyService.remove(id, user);
             log.info("Removed Nhat Ky [{}]", id);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body("Removed Nhat Ky [" + id + "] successfully!");
         } catch (Exception e) {
             log.error("Cannot remove Nhat Ky: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PostMapping(path = "{id}/chuan-bi-ao-nuoi")
+    public ResponseEntity<?> createChuanBiAoNuoi(@NotNull @PathVariable(value = "id") Long id,
+            @Valid @RequestBody ChuanBiAoNuoi chuanBiAoNuoi) {
+        try {
+            log.info("Creating Chuan Bi Ao Nuoi [{}] of Nhat Ky [{}] ...", chuanBiAoNuoi.toString(), id);
+            ChuanBiAoNuoi chuanBiAoNuoiCreated = this.serviceHolder.createChuanBiAoNuoi(id, chuanBiAoNuoi);
+            log.info("Created Chuan Bi Ao Nuoi [{}] of Nhat Ky [{}] ...", chuanBiAoNuoiCreated.getId(), id);
+            return ResponseEntity.ok(chuanBiAoNuoiCreated);
+        } catch (Exception e) {
+            log.error("Cannot create Chuan Bi Ao Nuoi: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PostMapping(path = "{id}/tha-giong")
+    public ResponseEntity<?> createThaGiong(@NotNull @PathVariable(value = "id") Long id,
+            @Valid @RequestBody ThaGiong thaGiong) {
+        try {
+            log.info("Creating Tha Giong [{}] of Nhat Ky [{}] ...", thaGiong.toString(), id);
+            ThaGiong thaGiongCreated = this.serviceHolder.createThaGiong(id, thaGiong);
+            log.info("Created Tha Giong [{}] of Nhat Ky [{}] ...", thaGiongCreated.getId(), id);
+            return ResponseEntity.ok(thaGiongCreated);
+        } catch (Exception e) {
+            log.error("Cannot create Tha Giong: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

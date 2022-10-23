@@ -12,11 +12,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
@@ -27,6 +27,7 @@ import com.edu.ctu.thesis.audit.AuditListener;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.seafood.vungnuoi.VungNuoi;
 import com.edu.ctu.thesis.validity.Validity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -66,21 +67,22 @@ public class TraiNuoi extends Validity implements AuditInterface {
     @Column(name = "hinh_thuc_nuoi")
     private String hinhThucNuoi;
 
-    @Column(name = "doi_tuoi_nuoi")
-    private String doiTuoiNuoi; // TODO: change type --> doi tuong nuoi tom
+    @Column(name = "doi_tuong_nuoi")
+    private String doiTuongNuoi;
 
     @Column(name = "dien_tich_nuoi")
     private Float dienTichNuoi;
 
-    @OneToOne(mappedBy = "traiNuoi", cascade = CascadeType.ALL)
-    @NotNull(message = "User should not be null")
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    @JsonProperty(access = Access.WRITE_ONLY)
     private User user;
 
     @OneToMany(mappedBy = "traiNuoi", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<VungNuoi> vungNuois;
 
-    // @JsonIgnore
-    @JsonProperty(access = Access.READ_ONLY)
+    // @JsonProperty(access = Access.READ_ONLY)
+    @JsonIgnore
     @Embedded
     private Audit audit;
 
@@ -89,7 +91,7 @@ public class TraiNuoi extends Validity implements AuditInterface {
         this.diaChi = traiNuoi.diaChi;
         this.dienThoai = traiNuoi.dienThoai;
         this.hinhThucNuoi = traiNuoi.hinhThucNuoi;
-        this.doiTuoiNuoi = traiNuoi.doiTuoiNuoi;
+        this.doiTuongNuoi = traiNuoi.doiTuongNuoi;
         this.dienTichNuoi = traiNuoi.dienTichNuoi;
 
         this.copyUserFullName(traiNuoi);

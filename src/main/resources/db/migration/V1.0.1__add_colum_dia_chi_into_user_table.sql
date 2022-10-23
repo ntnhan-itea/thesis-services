@@ -1,1 +1,1 @@
-ALTER TABLE tbl_user ADD COLUMN dia_chi varchar;
+ALTER TABLE tbl_user ADD COLUMN IF NOT EXISTS dia_chi varchar;
