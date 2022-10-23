@@ -83,14 +83,6 @@ public class TraiNuoi extends Validity implements AuditInterface {
     @Embedded
     private Audit audit;
 
-    public User getUser() {
-        User user = new User();
-        user.setFullName(this.user.getFullName());
-        user.setUsername(this.user.getUsername());
-        user.setGender(this.user.getGender());
-        return user;
-    }  
-
     public void copy(TraiNuoi traiNuoi) {
         this.tenTraiNuoi = traiNuoi.tenTraiNuoi;
         this.diaChi = traiNuoi.diaChi;

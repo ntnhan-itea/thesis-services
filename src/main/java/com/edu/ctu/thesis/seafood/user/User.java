@@ -75,6 +75,7 @@ public class User implements AuditInterface {
     private Gender gender;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private TraiNuoi traiNuoi;
 
     @JsonIgnore
