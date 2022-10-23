@@ -29,8 +29,6 @@ import com.edu.ctu.thesis.seafood.vungnuoi.VungNuoi;
 import com.edu.ctu.thesis.validity.Validity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -75,7 +73,6 @@ public class TraiNuoi extends Validity implements AuditInterface {
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
-    @JsonProperty(access = Access.WRITE_ONLY)
     private User user;
 
     @OneToMany(mappedBy = "traiNuoi", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -85,6 +82,14 @@ public class TraiNuoi extends Validity implements AuditInterface {
     @JsonIgnore
     @Embedded
     private Audit audit;
+
+    public User getUser() {
+        User user = new User();
+        user.setFullName(this.user.getFullName());
+        user.setUsername(this.user.getUsername());
+        user.setGender(this.user.getGender());
+        return user;
+    }  
 
     public void copy(TraiNuoi traiNuoi) {
         this.tenTraiNuoi = traiNuoi.tenTraiNuoi;

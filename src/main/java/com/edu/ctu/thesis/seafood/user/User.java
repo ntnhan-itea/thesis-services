@@ -95,14 +95,17 @@ public class User implements AuditInterface {
         }
     }
 
+    @JsonIgnore
     public String getValidUsername() {
         return StringUtils.isBlank(this.username) ? null : this.username.trim().toLowerCase();
     }
 
+    @JsonIgnore
     public String getValidPassword() {
         return StringUtils.isBlank(this.password) ? null : this.password.trim();
     }
 
+    @JsonIgnore
     public String getEncodedPassword() {
         return StringUtils.isBlank(this.password) ? null : ThesisUtils.encodeBase64(this.password.trim());
     }
