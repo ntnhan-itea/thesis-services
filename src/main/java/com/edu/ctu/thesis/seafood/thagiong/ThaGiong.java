@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.edu.ctu.thesis.seafood.dieukienmoitruong.DieuKienMoiTruong;
 import com.edu.ctu.thesis.seafood.nhatky.NhatKy;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.validity.Validity;
@@ -91,6 +93,9 @@ public class ThaGiong extends Validity {
     @Convert(converter = ChatLuongGiongConverter.class)
     private ChatLuongGiong chatLuongGiong;
 
+    @Embedded
+    DieuKienMoiTruong dieuKienMoiTruong;
+
     @OneToOne
     @JsonIgnore
     @JoinColumn(name = "nhat_ky_id", nullable = false, unique = true)
@@ -116,6 +121,19 @@ public class ThaGiong extends Validity {
         this.cachXuLy = thaGiong.cachXuLy;
         this.ngayThaGiong = thaGiong.ngayThaGiong;
         this.chatLuongGiong = thaGiong.chatLuongGiong;
+        this.updateDieuKienMoiTruong(thaGiong.dieuKienMoiTruong);        
+    }
+
+    private void updateDieuKienMoiTruong(DieuKienMoiTruong dieuKienMoiTruong) {
+        if( this.dieuKienMoiTruong == null) {
+            this.dieuKienMoiTruong = new DieuKienMoiTruong();
+        }
+
+        if(dieuKienMoiTruong == null) {
+            this.dieuKienMoiTruong = null;
+        } else {
+            this.dieuKienMoiTruong.copy(dieuKienMoiTruong);
+        }
     }
 
 }
