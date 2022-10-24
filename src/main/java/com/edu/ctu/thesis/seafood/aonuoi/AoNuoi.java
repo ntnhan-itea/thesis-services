@@ -92,7 +92,7 @@ public class AoNuoi extends Validity {
     private List<NhatKy> listOfNhatKy;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     @NotNull(message = "Account should not be null")
     @JsonProperty(access = Access.WRITE_ONLY)
     private User user;

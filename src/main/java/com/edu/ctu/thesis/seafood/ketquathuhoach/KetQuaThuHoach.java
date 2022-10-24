@@ -1,6 +1,5 @@
 package com.edu.ctu.thesis.seafood.ketquathuhoach;
 
-
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -9,11 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.edu.ctu.thesis.seafood.nhatky.NhatKy;
+import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.validity.Validity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +35,7 @@ public class KetQuaThuHoach extends Validity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = Access.READ_ONLY)
     private Long id;
 
     @Column(name = "dien_tich_ao")
@@ -61,7 +67,27 @@ public class KetQuaThuHoach extends Validity {
 
     @OneToOne
     @JoinColumn(name = "nhat_ky_id", nullable = false, unique = true)
+    @JsonIgnore
     private NhatKy nhatKy;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @NotNull(message = "Account should not be null")
+    @JsonProperty(access = Access.WRITE_ONLY)
+    private User user;
+
+    public void copy(KetQuaThuHoach ketQuaThuHoach) {
+        this.dienTichAo = ketQuaThuHoach.dienTichAo;
+        this.luongThaGiong = ketQuaThuHoach.luongThaGiong;
+        this.ngayThaGiong = ketQuaThuHoach.ngayThaGiong;
+        this.ngayThuHoach = ketQuaThuHoach.ngayThuHoach;
+        this.tongSoNgayNuoi = ketQuaThuHoach.tongSoNgayNuoi;
+        this.luongThucAnToanBo = ketQuaThuHoach.luongThucAnToanBo;
+        this.soLuongThuHoach = ketQuaThuHoach.soLuongThuHoach;
+        this.heSoFCR = ketQuaThuHoach.heSoFCR;
+        this.coSuDungHoaChatTrongAoNuoi = ketQuaThuHoach.coSuDungHoaChatTrongAoNuoi;
+    }
+
+    
 
 }

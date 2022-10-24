@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,10 +20,10 @@ import com.edu.ctu.thesis.seafood.nhatky.NhatKy;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.validity.Validity;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -101,7 +100,7 @@ public class ThaGiong extends Validity {
     @JoinColumn(name = "nhat_ky_id", nullable = false, unique = true)
     private NhatKy nhatKy;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonProperty(access = Access.WRITE_ONLY)
     @NotNull(message = "Account should not be null")

@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.edu.ctu.thesis.seafood.ServiceHolder;
 import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoi;
+import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
 import com.edu.ctu.thesis.seafood.thagiong.ThaGiong;
 import com.edu.ctu.thesis.seafood.user.User;
 
@@ -103,6 +104,20 @@ public class NhatKyResource {
             return ResponseEntity.ok(thaGiongCreated);
         } catch (Exception e) {
             log.error("Cannot create Tha Giong: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PostMapping(path = "{id}/ket-qua-thu-hoach")
+    public ResponseEntity<?> createKetQuaThuHoach(@NotNull @PathVariable(value = "id") Long id,
+            @Valid @RequestBody KetQuaThuHoach ketQuaThuHoach) {
+        try {
+            log.info("Creating Ket Qua Thu Hoach [{}] of Nhat Ky [{}] ...", ketQuaThuHoach.toString(), id);
+            KetQuaThuHoach ketQuaThuHoachCreated = this.serviceHolder.createKetQuaThuHoach(id, ketQuaThuHoach);
+            log.info("Created Ket Qua Thu Hoach [{}] of Nhat Ky [{}] ...", ketQuaThuHoachCreated.getId(), id);
+            return ResponseEntity.status(HttpStatus.CREATED).body(ketQuaThuHoachCreated);
+        } catch (Exception e) {
+            log.error("Cannot create Ket Qua Thu Hoach: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
