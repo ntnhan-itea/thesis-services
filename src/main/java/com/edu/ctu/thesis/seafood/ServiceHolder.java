@@ -100,6 +100,11 @@ public class ServiceHolder {
         thaGiong.setUser(userInDB);
         nhatKy.setThaGiong(thaGiong);
 
+        KetQuaThuHoach ketQuaThuHoachk = new KetQuaThuHoach();
+        ketQuaThuHoachk.setNhatKy(nhatKy);
+        ketQuaThuHoachk.setUser(userInDB);
+        nhatKy.setKetQuaThuHoach(ketQuaThuHoachk);
+
         return this.nhatKyService.create(nhatKy);
     }
 
