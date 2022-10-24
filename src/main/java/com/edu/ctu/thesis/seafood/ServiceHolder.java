@@ -90,14 +90,15 @@ public class ServiceHolder {
         nhatKy.setAoNuoi(aoNuoiInDB);
         nhatKy.setUser(userInDB);
 
-        ChuanBiAoNuoi chuanBiAoNuoi = nhatKy.getChuanBiAoNuoi();
-        if (chuanBiAoNuoi == null) {
-            chuanBiAoNuoi = new ChuanBiAoNuoi();
-        }
-
+        ChuanBiAoNuoi chuanBiAoNuoi = new ChuanBiAoNuoi();
         chuanBiAoNuoi.setNhatKy(nhatKy);
         chuanBiAoNuoi.setUser(userInDB);
         nhatKy.setChuanBiAoNuoi(chuanBiAoNuoi);
+
+        ThaGiong thaGiong = new ThaGiong();
+        thaGiong.setNhatKy(nhatKy);
+        thaGiong.setUser(userInDB);
+        nhatKy.setThaGiong(thaGiong);
 
         return this.nhatKyService.create(nhatKy);
     }

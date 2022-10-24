@@ -26,7 +26,6 @@ public class NhatKyService {
     ChuanBiAoNuoiService chuanBiAoNuoiService;
 
     public NhatKy create(NhatKy nhatKy) {
-        nhatKy.setId(null);
         return this.nhatKyRepository.save(nhatKy);
     }
 

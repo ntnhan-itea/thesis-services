@@ -34,6 +34,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "chuan_bi_ao_nuoi")
@@ -41,6 +42,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = false)
+@SuperBuilder
 public class ChuanBiAoNuoi extends Validity {
 
     @Id

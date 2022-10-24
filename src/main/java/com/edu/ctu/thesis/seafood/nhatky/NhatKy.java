@@ -58,6 +58,7 @@ public class NhatKy extends Validity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = Access.READ_ONLY)
     private Long id;
 
     @Column(name = "vu_nuoi")
