@@ -1,0 +1,34 @@
+version: '3'
+
+networks:
+  thesis-network:
+    driver: bridge
+services:
+  web:
+    container_name: thesis-container
+    build: .
+    image: thesis-image
+    ports:
+      - 8080:8080
+    networks:
+      - thesis-network
+    depends_on:
+      - thesis-db-url
+  thesis-db-url:
+    container_name: db
+    image: postgres:13.6
+    restart: always
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=thesis-db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=123
+    ports:
+      - "5432:5432"
+    networks:
+      - thesis-network
+    volumes:
+      - db:/var/lib/postgresql/data
+volumes:
+  db:
+    driver: local
