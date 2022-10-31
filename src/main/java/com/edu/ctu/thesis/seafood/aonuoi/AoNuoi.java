@@ -22,11 +22,13 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.annotation.Validated;
 
 import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.seafood.nhatky.NhatKy;
@@ -53,6 +55,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Validated
 public class AoNuoi extends Validity {
 
     private static final String SEMI_COLON = ";";
@@ -95,6 +98,7 @@ public class AoNuoi extends Validity {
     @JoinColumn(name = "user_id", nullable = false)
     @NotNull(message = "Account should not be null")
     @JsonProperty(access = Access.WRITE_ONLY)
+    @Valid
     private User user;
 
     @ManyToOne

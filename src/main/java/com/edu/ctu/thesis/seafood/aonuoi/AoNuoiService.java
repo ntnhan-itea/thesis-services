@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.edu.ctu.thesis.exceptions.EntityNotFound;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.seafood.user.UserService;
 import com.edu.ctu.thesis.seafood.vungnuoi.VungNuoiService;
@@ -41,7 +42,7 @@ public class AoNuoiService {
     private AoNuoi findById(Long id) {
         Optional<AoNuoi> aoNuoi = this.aoNuoiRepository.findById(id);
         if (!aoNuoi.isPresent()) {
-            throw new IllegalArgumentException("Cannot find Ao Nuoi [" + id + "] in DB");
+            throw new EntityNotFound("Cannot find Ao Nuoi [" + id + "] in DB");
         }
         return aoNuoi.get();
     }

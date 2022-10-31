@@ -26,6 +26,7 @@ import javax.validation.constraints.NotBlank;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.annotation.Validated;
 
 import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
@@ -54,6 +55,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 // @JsonInclude(value = Include.NON_NULL)
+@Validated
 public class VungNuoi extends Validity {
 
     private static final String SEMI_COLON = ";";

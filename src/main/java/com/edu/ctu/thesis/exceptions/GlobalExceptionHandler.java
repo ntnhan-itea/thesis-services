@@ -1,4 +1,7 @@
-package com.edu.ctu.thesis.customexception;
+package com.edu.ctu.thesis.exceptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,19 +17,22 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
 @Slf4j
-public class CustomValidationException {
+public class GlobalExceptionHandler {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler(value = { MethodArgumentNotValidException.class })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleMethodArgNotValid(MethodArgumentNotValidException exception, HttpServletRequest request) {
-        ApiError error = new ApiError(400, "", request.getServletPath());
+        ApiError error = new ApiError(400, request.getServletPath());
         BindingResult bindingResult = exception.getBindingResult();
         // Map<String, String> validationErrors = new HashMap<>();
         String message = "{";
+        List<String> messages = new ArrayList<>();
 
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
             String errorField = fieldError.getField();
             String errorMessage = fieldError.getDefaultMessage();
+
+            messages.add(errorMessage);
 
             message += errorMessage + "; ";
             log.error(errorField + ": " + errorMessage);
@@ -35,14 +41,20 @@ public class CustomValidationException {
         message += "}";
 
         error.setMessage(message);
+        error.setMessages(messages);
         return error;
     }
 
-    // @ExceptionHandler(ConstraintViolationException.class)
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
-    // public @ResponseBody String
-    // handleConstraintViolationException(ConstraintViolationException ex) {
+    @ExceptionHandler(value = { EntityNotFound.class })
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    public ApiError handleExceptionNotFoundEntity(EntityNotFound e, HttpServletRequest request) {
+        return new ApiError(HttpStatus.NOT_FOUND.value(), e.getMessage(), request.getServletPath());
+    }
 
-    // return ex.getMessage();
-    // }
+    @ExceptionHandler(value = { Exception.class })
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ApiError handleExceptionUnknown(Exception e, HttpServletRequest request) {
+        log.error("Something wrong: ", e);
+        return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Unknown error!", request.getServletPath());
+    }
 }

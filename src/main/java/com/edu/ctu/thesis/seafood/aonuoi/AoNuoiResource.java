@@ -68,15 +68,10 @@ public class AoNuoiResource {
     @PostMapping(value = "get-by-id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAoNuoiById(@NotNull @PathVariable(value = "id") Long id,
             @Valid @RequestBody User user) {
-        try {
             log.info("Getting Ao Nuoi by id [{}] with User [{}] ...", id, user.toString());
             AoNuoi aoNuoi = this.aoNuoiService.findByIdAndUser(id, user);
             log.info("Got Ao Nuoi [{}] successfully!", aoNuoi.getId());
             return ResponseEntity.ok(aoNuoi);
-        } catch (Exception e) {
-            log.error("Cannot get Ao Nuoi: ", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
     }
 
     @PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
