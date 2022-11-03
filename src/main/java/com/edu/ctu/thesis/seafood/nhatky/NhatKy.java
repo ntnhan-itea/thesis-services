@@ -2,6 +2,7 @@ package com.edu.ctu.thesis.seafood.nhatky;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -22,6 +24,7 @@ import com.edu.ctu.thesis.audit.Audit;
 import com.edu.ctu.thesis.seafood.aonuoi.AoNuoi;
 import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoi;
 import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
+import com.edu.ctu.thesis.seafood.lantheodoitangtruong.LanTheoDoiTangTruong;
 import com.edu.ctu.thesis.seafood.thagiong.ThaGiong;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.validity.Validity;
@@ -84,6 +87,9 @@ public class NhatKy extends Validity {
 
     @OneToOne(mappedBy = "nhatKy", cascade = CascadeType.ALL)
     private ThaGiong thaGiong;
+
+    @OneToMany(mappedBy = "nhatKy", cascade = CascadeType.ALL)
+    private List<LanTheoDoiTangTruong> lanTheoDoiTangTruongs;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

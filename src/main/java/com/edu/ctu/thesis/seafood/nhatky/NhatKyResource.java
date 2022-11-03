@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.edu.ctu.thesis.seafood.ServiceHolder;
 import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoi;
 import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
+import com.edu.ctu.thesis.seafood.lantheodoitangtruong.LanTheoDoiTangTruong;
 import com.edu.ctu.thesis.seafood.thagiong.ThaGiong;
 import com.edu.ctu.thesis.seafood.user.User;
 
@@ -118,6 +119,20 @@ public class NhatKyResource {
             return ResponseEntity.status(HttpStatus.CREATED).body(ketQuaThuHoachCreated);
         } catch (Exception e) {
             log.error("Cannot create Ket Qua Thu Hoach: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PostMapping(path = "{id}/lan-theo-doi-tang-truong")
+    public ResponseEntity<?> createLanTheoDoiTangTruong(@NotNull @PathVariable(value = "id") Long id,
+            @Valid @RequestBody LanTheoDoiTangTruong lanTheoDoiTangTruong) {
+        try {
+            log.info("Creating Lan Theo Doi Tang Truong [{}] of Nhat Ky [{}] ...", lanTheoDoiTangTruong.toString(), id);
+            LanTheoDoiTangTruong lanTheoDoiTangTruongCreated = this.serviceHolder.createLanTheoDoiTangTruong(id, lanTheoDoiTangTruong);
+            log.info("Created Lan Theo Doi Tang Truong [{}] of Nhat Ky [{}] ...", lanTheoDoiTangTruongCreated.getId(), id);
+            return ResponseEntity.status(HttpStatus.CREATED).body(lanTheoDoiTangTruongCreated);
+        } catch (Exception e) {
+            log.error("Cannot create Lan Theo Doi Tang Truong: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

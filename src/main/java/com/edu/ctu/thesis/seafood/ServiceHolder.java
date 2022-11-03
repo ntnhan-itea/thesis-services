@@ -16,6 +16,8 @@ import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoi;
 import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoiService;
 import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
 import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoachService;
+import com.edu.ctu.thesis.seafood.lantheodoitangtruong.LanTheoDoiTangTruong;
+import com.edu.ctu.thesis.seafood.lantheodoitangtruong.LanTheoDoiTangTruongService;
 import com.edu.ctu.thesis.seafood.nhatky.NhatKy;
 import com.edu.ctu.thesis.seafood.nhatky.NhatKyService;
 import com.edu.ctu.thesis.seafood.thagiong.ThaGiong;
@@ -56,6 +58,9 @@ public class ServiceHolder {
 
     @Autowired
     KetQuaThuHoachService ketQuaThuHoachService;
+
+    @Autowired
+    LanTheoDoiTangTruongService lanTheoDoiTangTruongService;
 
     public TraiNuoi createTraiNuoi(TraiNuoi traiNuoi) {
         return this.userService.createUser(traiNuoi).getTraiNuoi();
@@ -173,6 +178,16 @@ public class ServiceHolder {
         ketQuaThuHoach.setUser(userInDB);
 
         return this.ketQuaThuHoachService.create(ketQuaThuHoach);
+    }
+
+    public LanTheoDoiTangTruong createLanTheoDoiTangTruong(Long nhatKyId, LanTheoDoiTangTruong lanTheoDoiTangTruong) {
+        NhatKy nhatKyInDB = this.nhatKyService.findById(nhatKyId, lanTheoDoiTangTruong.getUser());
+        User userInDB = nhatKyInDB.getUser();
+
+        lanTheoDoiTangTruong.setNhatKy(nhatKyInDB);
+        lanTheoDoiTangTruong.setUser(userInDB);
+
+        return this.lanTheoDoiTangTruongService.create(lanTheoDoiTangTruong);
     }
 
 }
