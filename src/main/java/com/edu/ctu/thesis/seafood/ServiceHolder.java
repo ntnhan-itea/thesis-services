@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.edu.ctu.thesis.seafood.MauChatLuongNuocAoNuoi.MauChatLuongNuocAoNuoi;
+import com.edu.ctu.thesis.seafood.MauChatLuongNuocAoNuoi.MauChatLuongNuocAoNuoiService;
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoiService;
 import com.edu.ctu.thesis.seafood.aonuoi.AoNuoi;
@@ -61,6 +63,9 @@ public class ServiceHolder {
 
     @Autowired
     LanTheoDoiTangTruongService lanTheoDoiTangTruongService;
+
+    @Autowired
+    MauChatLuongNuocAoNuoiService mauChatLuongNuocAoNuoiService;
 
     public TraiNuoi createTraiNuoi(TraiNuoi traiNuoi) {
         return this.userService.createUser(traiNuoi).getTraiNuoi();
@@ -188,6 +193,16 @@ public class ServiceHolder {
         lanTheoDoiTangTruong.setUser(userInDB);
 
         return this.lanTheoDoiTangTruongService.create(lanTheoDoiTangTruong);
+    }
+
+    public MauChatLuongNuocAoNuoi createMauChatLuongNuocAoNuoi(Long nhatKyId, MauChatLuongNuocAoNuoi mauChatLuongNuocAoNuoi) {
+        NhatKy nhatKyInDB = this.nhatKyService.findById(nhatKyId, mauChatLuongNuocAoNuoi.getUser());
+        User userInDB = nhatKyInDB.getUser();
+
+        mauChatLuongNuocAoNuoi.setNhatKy(nhatKyInDB);
+        mauChatLuongNuocAoNuoi.setUser(userInDB);
+
+        return this.mauChatLuongNuocAoNuoiService.create(mauChatLuongNuocAoNuoi);
     }
 
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.edu.ctu.thesis.seafood.ServiceHolder;
+import com.edu.ctu.thesis.seafood.MauChatLuongNuocAoNuoi.MauChatLuongNuocAoNuoi;
 import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoi;
 import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
 import com.edu.ctu.thesis.seafood.lantheodoitangtruong.LanTheoDoiTangTruong;
@@ -87,7 +88,7 @@ public class NhatKyResource {
         try {
             log.info("Creating Chuan Bi Ao Nuoi [{}] of Nhat Ky [{}] ...", chuanBiAoNuoi.toString(), id);
             ChuanBiAoNuoi chuanBiAoNuoiCreated = this.serviceHolder.createChuanBiAoNuoi(id, chuanBiAoNuoi);
-            log.info("Created Chuan Bi Ao Nuoi [{}] of Nhat Ky [{}] ...", chuanBiAoNuoiCreated.getId(), id);
+            log.info("Created Chuan Bi Ao Nuoi [{}] of Nhat Ky [{}] successfully!", chuanBiAoNuoiCreated.getId(), id);
             return ResponseEntity.ok(chuanBiAoNuoiCreated);
         } catch (Exception e) {
             log.error("Cannot create Chuan Bi Ao Nuoi: ", e);
@@ -101,7 +102,7 @@ public class NhatKyResource {
         try {
             log.info("Creating Tha Giong [{}] of Nhat Ky [{}] ...", thaGiong.toString(), id);
             ThaGiong thaGiongCreated = this.serviceHolder.createThaGiong(id, thaGiong);
-            log.info("Created Tha Giong [{}] of Nhat Ky [{}] ...", thaGiongCreated.getId(), id);
+            log.info("Created Tha Giong [{}] of Nhat Ky [{}] successfully!", thaGiongCreated.getId(), id);
             return ResponseEntity.ok(thaGiongCreated);
         } catch (Exception e) {
             log.error("Cannot create Tha Giong: ", e);
@@ -115,7 +116,7 @@ public class NhatKyResource {
         try {
             log.info("Creating Ket Qua Thu Hoach [{}] of Nhat Ky [{}] ...", ketQuaThuHoach.toString(), id);
             KetQuaThuHoach ketQuaThuHoachCreated = this.serviceHolder.createKetQuaThuHoach(id, ketQuaThuHoach);
-            log.info("Created Ket Qua Thu Hoach [{}] of Nhat Ky [{}] ...", ketQuaThuHoachCreated.getId(), id);
+            log.info("Created Ket Qua Thu Hoach [{}] of Nhat Ky [{}] successfully!", ketQuaThuHoachCreated.getId(), id);
             return ResponseEntity.status(HttpStatus.CREATED).body(ketQuaThuHoachCreated);
         } catch (Exception e) {
             log.error("Cannot create Ket Qua Thu Hoach: ", e);
@@ -129,10 +130,24 @@ public class NhatKyResource {
         try {
             log.info("Creating Lan Theo Doi Tang Truong [{}] of Nhat Ky [{}] ...", lanTheoDoiTangTruong.toString(), id);
             LanTheoDoiTangTruong lanTheoDoiTangTruongCreated = this.serviceHolder.createLanTheoDoiTangTruong(id, lanTheoDoiTangTruong);
-            log.info("Created Lan Theo Doi Tang Truong [{}] of Nhat Ky [{}] ...", lanTheoDoiTangTruongCreated.getId(), id);
+            log.info("Created Lan Theo Doi Tang Truong [{}] of Nhat Ky [{}] successfully!", lanTheoDoiTangTruongCreated.getId(), id);
             return ResponseEntity.status(HttpStatus.CREATED).body(lanTheoDoiTangTruongCreated);
         } catch (Exception e) {
             log.error("Cannot create Lan Theo Doi Tang Truong: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PostMapping(path = "{id}/mau-chat-luong-nuoc-ao-nuoi")
+    public ResponseEntity<?> createMauChatLuongNuocAoNuoi(@NotNull @PathVariable(value = "id") Long id,
+            @Valid @RequestBody MauChatLuongNuocAoNuoi mauChatLuongNuocAoNuoi) {
+        try {
+            log.info("Creating Mau Chat Luong Nuoc Ao Nuoi [{}] of Nhat Ky [{}] ...", mauChatLuongNuocAoNuoi.toString(), id);
+            MauChatLuongNuocAoNuoi mauChatLuongNuocAoNuoiCreated = this.serviceHolder.createMauChatLuongNuocAoNuoi(id, mauChatLuongNuocAoNuoi);
+            log.info("Created Mau Chat Luong Nuoc Ao Nuoi [{}] of Nhat Ky [{}] successfully!", mauChatLuongNuocAoNuoiCreated.getId(), id);
+            return ResponseEntity.status(HttpStatus.CREATED).body(mauChatLuongNuocAoNuoiCreated);
+        } catch (Exception e) {
+            log.error("Cannot create Mau Chat Luong Nuoc Ao Nuoi: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

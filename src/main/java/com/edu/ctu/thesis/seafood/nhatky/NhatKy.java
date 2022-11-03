@@ -2,6 +2,7 @@ package com.edu.ctu.thesis.seafood.nhatky;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,6 +22,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.edu.ctu.thesis.audit.Audit;
+import com.edu.ctu.thesis.seafood.MauChatLuongNuocAoNuoi.MauChatLuongNuocAoNuoi;
 import com.edu.ctu.thesis.seafood.aonuoi.AoNuoi;
 import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoi;
 import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
@@ -89,7 +91,10 @@ public class NhatKy extends Validity {
     private ThaGiong thaGiong;
 
     @OneToMany(mappedBy = "nhatKy", cascade = CascadeType.ALL)
-    private List<LanTheoDoiTangTruong> lanTheoDoiTangTruongs;
+    private List<LanTheoDoiTangTruong> lanTheoDoiTangTruongs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "nhatKy", cascade = CascadeType.ALL)
+    private List<MauChatLuongNuocAoNuoi> mauChatLuongNuocAoNuois = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

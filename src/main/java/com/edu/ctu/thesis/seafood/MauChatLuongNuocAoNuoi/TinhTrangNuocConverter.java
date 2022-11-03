@@ -10,7 +10,7 @@ public class TinhTrangNuocConverter implements AttributeConverter<TinhTrangNuoc,
     @Override
     public Integer convertToDatabaseColumn(TinhTrangNuoc arg0) {
         Integer value = TinhTrangNuoc.KHONG_XAC_DINH.getValue();
-        if(Objects.nonNull(arg0)) {
+        if (Objects.nonNull(arg0)) {
             value = arg0.getValue();
         }
         return value;
@@ -21,10 +21,8 @@ public class TinhTrangNuocConverter implements AttributeConverter<TinhTrangNuoc,
         TinhTrangNuoc[] tinhTrangNuocs = TinhTrangNuoc.values();
 
         return Arrays.stream(tinhTrangNuocs)
-        .filter(each -> each.getValue() == arg0)
-        .findFirst().orElse(TinhTrangNuoc.KHONG_XAC_DINH);
+                .filter(each -> each.getValue() == arg0)
+                .findFirst().orElse(TinhTrangNuoc.KHONG_XAC_DINH);
     }
 
-
-    
 }
