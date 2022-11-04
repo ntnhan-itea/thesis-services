@@ -26,6 +26,7 @@ import com.edu.ctu.thesis.seafood.aonuoi.AoNuoi;
 import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoi;
 import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
 import com.edu.ctu.thesis.seafood.lantheodoitangtruong.LanTheoDoiTangTruong;
+import com.edu.ctu.thesis.seafood.lanthucanthuoc.LanThucAnThuoc;
 import com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi.MauChatLuongNuocAoNuoi;
 import com.edu.ctu.thesis.seafood.thagiong.ThaGiong;
 import com.edu.ctu.thesis.seafood.user.User;
@@ -95,6 +96,9 @@ public class NhatKy extends Validity {
 
     @OneToMany(mappedBy = "nhatKy", cascade = CascadeType.ALL)
     private List<MauChatLuongNuocAoNuoi> mauChatLuongNuocAoNuois = new ArrayList<>();
+
+    @OneToMany(mappedBy = "nhatKy", cascade = CascadeType.ALL)
+    private List<LanThucAnThuoc> lanThucAnThuocs = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

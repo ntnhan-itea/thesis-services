@@ -20,6 +20,7 @@ import com.edu.ctu.thesis.seafood.ServiceHolder;
 import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoi;
 import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
 import com.edu.ctu.thesis.seafood.lantheodoitangtruong.LanTheoDoiTangTruong;
+import com.edu.ctu.thesis.seafood.lanthucanthuoc.LanThucAnThuoc;
 import com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi.MauChatLuongNuocAoNuoi;
 import com.edu.ctu.thesis.seafood.thagiong.ThaGiong;
 import com.edu.ctu.thesis.seafood.user.User;
@@ -148,6 +149,20 @@ public class NhatKyResource {
             return ResponseEntity.status(HttpStatus.CREATED).body(mauChatLuongNuocAoNuoiCreated);
         } catch (Exception e) {
             log.error("Cannot create Mau Chat Luong Nuoc Ao Nuoi: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PostMapping(path = "{id}/lan-thuc-an-thuoc")
+    public ResponseEntity<?> createLanThucAnThuoc(@NotNull @PathVariable(value = "id") Long id,
+            @Valid @RequestBody LanThucAnThuoc lanThucAnThuoc) {
+        try {
+            log.info("Creating Lan Thuc An thuoc [{}] of Nhat Ky [{}] ...", lanThucAnThuoc.toString(), id);
+            LanThucAnThuoc lanThucAnThuocCreated = this.serviceHolder.createLanThucAnThuoc(id, lanThucAnThuoc);
+            log.info("Created Lan Thuc An thuoc [{}] of Nhat Ky [{}] successfully!", lanThucAnThuocCreated.getId(), id);
+            return ResponseEntity.status(HttpStatus.CREATED).body(lanThucAnThuocCreated);
+        } catch (Exception e) {
+            log.error("Cannot create Lan Thuc An thuoc: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
