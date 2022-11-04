@@ -1,7 +1,10 @@
 package com.edu.ctu.thesis.seafood.ketquathuhoach;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,11 +12,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.edu.ctu.thesis.seafood.nhatky.NhatKy;
+import com.edu.ctu.thesis.seafood.thuhoachvadoanhthu.ThuHoachVaDoanhThu;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.validity.Validity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -59,11 +64,32 @@ public class KetQuaThuHoach extends Validity {
     @Column(name = "so_luong_thu_hoach")
     private Float soLuongThuHoach;
 
-    @Column(name = "he_so_FCR")
-    private Float heSoFCR;
+    @Column(name = "sulfit")
+    private Float sulfit;
 
-    @Column(name = "co_su_dung_hoa_chat")
-    private Boolean coSuDungHoaChatTrongAoNuoi;
+    @Column(name = "chi_phi_thuc_an")
+    private Float chiPhiThucAn;
+
+    @Column(name = "chi_phi_giong")
+    private Float chiPhiGiong;
+
+    @Column(name = "chi_phi_cai_tao")
+    private Float chiPhiCaiTao;
+
+    @Column(name = "chi_phi_dau_nhot")
+    private Float chiPhiDauNhot;
+
+    @Column(name = "chi_phi_cong_nhan")
+    private Float chiPhiCongNhan;
+
+    @Column(name = "chi_phi_phat_sinh")
+    private Float chiPhiPhatSinh;
+
+    @Column(name = "chi_phi_khac")
+    private Float chiPhiKhac;
+
+    @OneToMany(mappedBy = "ketQuaThuHoach", cascade = CascadeType.ALL)
+    private List<ThuHoachVaDoanhThu> thuHoachVaDoanhThus = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "nhat_ky_id", nullable = false, unique = true)
@@ -76,18 +102,22 @@ public class KetQuaThuHoach extends Validity {
     @JsonProperty(access = Access.WRITE_ONLY)
     private User user;
 
-    public void copy(KetQuaThuHoach ketQuaThuHoach) {
-        this.dienTichAo = ketQuaThuHoach.dienTichAo;
-        this.luongThaGiong = ketQuaThuHoach.luongThaGiong;
-        this.ngayThaGiong = ketQuaThuHoach.ngayThaGiong;
-        this.ngayThuHoach = ketQuaThuHoach.ngayThuHoach;
-        this.tongSoNgayNuoi = ketQuaThuHoach.tongSoNgayNuoi;
-        this.luongThucAnToanBo = ketQuaThuHoach.luongThucAnToanBo;
-        this.soLuongThuHoach = ketQuaThuHoach.soLuongThuHoach;
-        this.heSoFCR = ketQuaThuHoach.heSoFCR;
-        this.coSuDungHoaChatTrongAoNuoi = ketQuaThuHoach.coSuDungHoaChatTrongAoNuoi;
+    public void copy(KetQuaThuHoach entity) {
+        this.dienTichAo = entity.dienTichAo;
+        this.luongThaGiong = entity.luongThaGiong;
+        this.ngayThaGiong = entity.ngayThaGiong;
+        this.ngayThuHoach = entity.ngayThuHoach;
+        this.tongSoNgayNuoi = entity.tongSoNgayNuoi;
+        this.luongThucAnToanBo = entity.luongThucAnToanBo;
+        this.soLuongThuHoach = entity.soLuongThuHoach;
+        this.sulfit = entity.sulfit;
+        this.chiPhiThucAn = entity.chiPhiThucAn;
+        this.chiPhiGiong = entity.chiPhiGiong;
+        this.chiPhiCaiTao = entity.chiPhiCaiTao;
+        this.chiPhiDauNhot = entity.chiPhiDauNhot;
+        this.chiPhiCongNhan = entity.chiPhiCongNhan;
+        this.chiPhiPhatSinh = entity.chiPhiPhatSinh;
+        this.chiPhiKhac = entity.chiPhiKhac;
     }
-
-    
 
 }

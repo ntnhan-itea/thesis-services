@@ -28,6 +28,8 @@ import com.edu.ctu.thesis.seafood.thagiong.ThaGiong;
 import com.edu.ctu.thesis.seafood.thagiong.ThaGiongService;
 import com.edu.ctu.thesis.seafood.thanhphancaitao.ThanhPhanCaiTao;
 import com.edu.ctu.thesis.seafood.thanhphancaitao.ThanhPhanCaiTaoService;
+import com.edu.ctu.thesis.seafood.thuhoachvadoanhthu.ThuHoachVaDoanhThu;
+import com.edu.ctu.thesis.seafood.thuhoachvadoanhthu.ThuHoachVaDoanhThuService;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.seafood.user.UserService;
 import com.edu.ctu.thesis.seafood.vungnuoi.VungNuoi;
@@ -71,6 +73,10 @@ public class ServiceHolder {
 
     @Autowired
     LanThucAnThuocService lanThucAnThuocService;
+
+    @Autowired
+    ThuHoachVaDoanhThuService thuHoachVaDoanhThuService;
+
 
     public TraiNuoi createTraiNuoi(TraiNuoi traiNuoi) {
         return this.userService.createUser(traiNuoi).getTraiNuoi();
@@ -218,6 +224,16 @@ public class ServiceHolder {
         lanThucAnThuoc.setUser(userInDB);
 
         return this.lanThucAnThuocService.create(lanThucAnThuoc);
+    }
+
+    public ThuHoachVaDoanhThu createThuHoachVaDoanhThu(Long ketQuaThuHoachId, ThuHoachVaDoanhThu thuHoachVaDoanhThu) {
+        KetQuaThuHoach ketQuaThuHoachInDB = this.ketQuaThuHoachService.findById(ketQuaThuHoachId, thuHoachVaDoanhThu.getUser());
+        User userInDB = ketQuaThuHoachInDB.getUser();
+
+        thuHoachVaDoanhThu.setKetQuaThuHoach(ketQuaThuHoachInDB);
+        thuHoachVaDoanhThu.setUser(userInDB);
+
+        return this.thuHoachVaDoanhThuService.create(thuHoachVaDoanhThu);
     }
 
 }

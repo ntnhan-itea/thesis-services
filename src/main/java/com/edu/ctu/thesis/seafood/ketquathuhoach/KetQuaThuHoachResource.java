@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.edu.ctu.thesis.seafood.ServiceHolder;
+import com.edu.ctu.thesis.seafood.thuhoachvadoanhthu.ThuHoachVaDoanhThu;
 import com.edu.ctu.thesis.seafood.user.User;
 
 import lombok.extern.log4j.Log4j2;
@@ -28,6 +30,9 @@ public class KetQuaThuHoachResource {
     
     @Autowired
     KetQuaThuHoachService ketQuaThuHoachService;
+
+    @Autowired
+    ServiceHolder serviceHolder;
 
     @PostMapping(path = "get-by-id/{id}")
     public ResponseEntity<?> getById(@NotNull @PathVariable(value = "id") Long id, @Valid @RequestBody User user) {
@@ -69,6 +74,21 @@ public class KetQuaThuHoachResource {
             return ResponseEntity.status(HttpStatus.OK).body("Removed Ket Qua Thu Hoach [" + id + "] successfully!");
         } catch (Exception e) {
             log.error("Cannot remove Ket Qua Thu Hoach: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    
+    @PostMapping(path = "{id}/thu-hoach-va-doanh-thu")
+    public ResponseEntity<?> createLanThucAnThuoc(@NotNull @PathVariable(value = "id") Long id,
+            @Valid @RequestBody ThuHoachVaDoanhThu thuHoachVaDoanhThu) {
+        try {
+            log.info("Creating Thu Hoach Va Doanh Thu [{}] of Ket Qua Thu Hoach [{}] ...", thuHoachVaDoanhThu.toString(), id);
+            ThuHoachVaDoanhThu entityCreated = this.serviceHolder.createThuHoachVaDoanhThu(id, thuHoachVaDoanhThu);
+            log.info("Created Thu Hoach Va Doanh Thu [{}] of Ket Qua Thu Hoach [{}] successfully!", entityCreated.getId(), id);
+            return ResponseEntity.status(HttpStatus.CREATED).body(entityCreated);
+        } catch (Exception e) {
+            log.error("Cannot create Thu Hoach Va Doanh Thu: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
