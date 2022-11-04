@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.edu.ctu.thesis.seafood.MauChatLuongNuocAoNuoi.MauChatLuongNuocAoNuoi;
-import com.edu.ctu.thesis.seafood.MauChatLuongNuocAoNuoi.MauChatLuongNuocAoNuoiService;
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoiService;
 import com.edu.ctu.thesis.seafood.aonuoi.AoNuoi;
@@ -20,6 +18,8 @@ import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
 import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoachService;
 import com.edu.ctu.thesis.seafood.lantheodoitangtruong.LanTheoDoiTangTruong;
 import com.edu.ctu.thesis.seafood.lantheodoitangtruong.LanTheoDoiTangTruongService;
+import com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi.MauChatLuongNuocAoNuoi;
+import com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi.MauChatLuongNuocAoNuoiService;
 import com.edu.ctu.thesis.seafood.nhatky.NhatKy;
 import com.edu.ctu.thesis.seafood.nhatky.NhatKyService;
 import com.edu.ctu.thesis.seafood.thagiong.ThaGiong;

@@ -1,4 +1,4 @@
-package com.edu.ctu.thesis.seafood.MauChatLuongNuocAoNuoi.cacchiso;
+package com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi.cacchiso;
 
 import javax.persistence.Embeddable;
 

@@ -1,4 +1,4 @@
-package com.edu.ctu.thesis.seafood.MauChatLuongNuocAoNuoi;
+package com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi;
 
 public enum TinhTrangNuoc {
     KHONG_XAC_DINH(-1) ,O_NHIEM(0), SACH_SE(1);

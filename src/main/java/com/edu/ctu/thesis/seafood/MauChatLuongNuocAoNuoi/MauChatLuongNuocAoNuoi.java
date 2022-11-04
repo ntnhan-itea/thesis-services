@@ -1,4 +1,4 @@
-package com.edu.ctu.thesis.seafood.MauChatLuongNuocAoNuoi;
+package com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi;
 
 import java.time.LocalDate;
 
@@ -17,9 +17,9 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import com.edu.ctu.thesis.seafood.MauChatLuongNuocAoNuoi.cacchiso.ChiSoDO;
-import com.edu.ctu.thesis.seafood.MauChatLuongNuocAoNuoi.cacchiso.ChiSoNhietDo;
-import com.edu.ctu.thesis.seafood.MauChatLuongNuocAoNuoi.cacchiso.ChiSoPH;
+import com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi.cacchiso.ChiSoDO;
+import com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi.cacchiso.ChiSoNhietDo;
+import com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi.cacchiso.ChiSoPH;
 import com.edu.ctu.thesis.seafood.nhatky.NhatKy;
 import com.edu.ctu.thesis.seafood.user.User;
 import com.edu.ctu.thesis.validity.Validity;

@@ -1,4 +1,4 @@
-package com.edu.ctu.thesis.seafood.MauChatLuongNuocAoNuoi;
+package com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

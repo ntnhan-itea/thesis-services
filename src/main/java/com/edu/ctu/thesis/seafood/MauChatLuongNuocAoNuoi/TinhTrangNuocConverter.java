@@ -1,4 +1,4 @@
-package com.edu.ctu.thesis.seafood.MauChatLuongNuocAoNuoi;
+package com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi;
 
 import java.util.Arrays;
 import java.util.Objects;
