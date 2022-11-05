@@ -37,6 +37,9 @@ public class LanTheoDoiTangTruong extends Validity {
     @JsonProperty(access = Access.READ_ONLY)
     private Long id;
 
+    @Column(name = "lan_kiem_tra")
+    private Integer lanKiemTra;
+
     @Column(name = "ngay_kiem_tra")
     private LocalDate ngayKiemTra;
 
@@ -74,6 +77,7 @@ public class LanTheoDoiTangTruong extends Validity {
     private User user;
 
     public void copy(LanTheoDoiTangTruong lanTheoDoiTangTruong) {
+        this.lanKiemTra = lanTheoDoiTangTruong.lanKiemTra;
         this.ngayKiemTra = lanTheoDoiTangTruong.ngayKiemTra;
         this.tuoiTom = lanTheoDoiTangTruong.tuoiTom;
         this.matDoTrungBinh = lanTheoDoiTangTruong.matDoTrungBinh;
