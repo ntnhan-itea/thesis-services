@@ -55,8 +55,7 @@ public class TraiNuoi extends Validity implements AuditInterface {
     @NotBlank(message = "Ten trai nuoi khong duoc phep bo trong")
     private String tenTraiNuoi;
 
-    @Column(name = "dia_chi", nullable = false)
-    @NotBlank(message = "Dia chi trai nuoi khong duoc phep bo trong")
+    @Column(name = "dia_chi")
     private String diaChi;
 
     @Column(name = "dien_thoai")

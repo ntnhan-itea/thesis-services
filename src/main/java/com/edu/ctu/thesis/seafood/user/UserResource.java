@@ -1,5 +1,7 @@
 package com.edu.ctu.thesis.seafood.user;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,20 @@ public class UserResource {
     //     }
     // }
 
+    @GetMapping(path = "get-all")
+    public ResponseEntity<?> getAll() {
+        try {
+            log.info("Getting all users ...");
+            List<User> users = this.userService.getAll();
+            log.info("Got all users [{}] successfully!", users.size());
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            log.error("Cannot get all users: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    } 
+
+
     @PutMapping
     public ResponseEntity<?> updateUser(@Valid @RequestBody User user) {
         try {
@@ -53,6 +69,19 @@ public class UserResource {
         }
     } 
 
+    @PostMapping
+    public ResponseEntity<?> create(@Valid @RequestBody User user) {
+        try {
+            log.info("Creating user [{}] ...", user.toString());
+            User userInDB = this.userService.createUser(user);
+            log.info("Created user [{}] successfully!", userInDB.getUsername());
+            return ResponseEntity.ok(userInDB);
+        } catch (Exception e) {
+            log.error("Cannot create user: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
     @PostMapping(path = "login")
     public ResponseEntity<?> getUser(@Valid @RequestBody User user) {
         try {
@@ -61,8 +90,8 @@ public class UserResource {
             log.info("Got user [{}] successfully!", userInDB.getUsername());
             return ResponseEntity.ok(userInDB);
         } catch (Exception e) {
-            log.error("Cannot create new user: ", e);
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            log.error("Cannot get user: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 

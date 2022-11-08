@@ -1,9 +1,11 @@
 package com.edu.ctu.thesis.seafood.user;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
@@ -26,6 +28,10 @@ public class UserService {
         user.setPassword(password);
 
         TraiNuoi traiNuoi = user.getTraiNuoi();
+        if(traiNuoi == null) {
+            traiNuoi = new TraiNuoi();
+        }
+        traiNuoi.setTenTraiNuoi("UnKnown Trai Nuoi name");
         traiNuoi.setUser(user);
         return this.userRepository.save(user);
     }
@@ -39,7 +45,7 @@ public class UserService {
         user.setUsername(username);
         user.setPassword(password);
         user.setTraiNuoi(traiNuoi);
- 
+
         return this.userRepository.save(user);
     }
 
@@ -52,11 +58,11 @@ public class UserService {
     }
 
     private void isValidNewPassword(User user) {
-        if(user == null) {
+        if (user == null) {
             throw new IllegalArgumentException(INVALID_ACCOUNT);
         }
 
-        if(StringUtils.isBlank(user.getNewPassword())) {
+        if (StringUtils.isBlank(user.getNewPassword())) {
             throw new IllegalArgumentException("Invalid new password");
         }
     }
@@ -82,6 +88,10 @@ public class UserService {
         }
 
         return userInDB;
+    }
+
+    public List<User> getAll() {
+        return this.userRepository.findAll(Sort.by(Sort.Direction.DESC, "username"));
     }
 
     public void checkLoginSucceed(User userLogin, User userInDB) {
