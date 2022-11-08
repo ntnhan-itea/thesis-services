@@ -14,6 +14,8 @@ import com.edu.ctu.thesis.seafood.aonuoi.AoNuoi;
 import com.edu.ctu.thesis.seafood.aonuoi.AoNuoiService;
 import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoi;
 import com.edu.ctu.thesis.seafood.chuanbiaonuoi.ChuanBiAoNuoiService;
+import com.edu.ctu.thesis.seafood.congviec.CongViec;
+import com.edu.ctu.thesis.seafood.congviec.CongViecService;
 import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
 import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoachService;
 import com.edu.ctu.thesis.seafood.lantheodoitangtruong.LanTheoDoiTangTruong;
@@ -24,6 +26,8 @@ import com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi.MauChatLuongNuocAoNuoi;
 import com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi.MauChatLuongNuocAoNuoiService;
 import com.edu.ctu.thesis.seafood.nhatky.NhatKy;
 import com.edu.ctu.thesis.seafood.nhatky.NhatKyService;
+import com.edu.ctu.thesis.seafood.quytrinh.QuyTrinh;
+import com.edu.ctu.thesis.seafood.quytrinh.QuyTrinhService;
 import com.edu.ctu.thesis.seafood.thagiong.ThaGiong;
 import com.edu.ctu.thesis.seafood.thagiong.ThaGiongService;
 import com.edu.ctu.thesis.seafood.thanhphancaitao.ThanhPhanCaiTao;
@@ -77,6 +81,12 @@ public class ServiceHolder {
     @Autowired
     ThuHoachVaDoanhThuService thuHoachVaDoanhThuService;
 
+    @Autowired
+    QuyTrinhService quyTrinhService;
+
+    @Autowired 
+    CongViecService congViecService;
+
 
     public TraiNuoi createTraiNuoi(TraiNuoi traiNuoi) {
         return this.userService.createUser(traiNuoi).getTraiNuoi();
@@ -125,6 +135,12 @@ public class ServiceHolder {
         ketQuaThuHoachk.setNhatKy(nhatKy);
         ketQuaThuHoachk.setUser(userInDB);
         nhatKy.setKetQuaThuHoach(ketQuaThuHoachk);
+        
+        QuyTrinh quyTrinh = new QuyTrinh();
+        quyTrinh.setNhatKy(nhatKy);
+        quyTrinh.setUser(userInDB);
+        quyTrinh.setTenQuyTrinh("Unknown Quy Trinh name");
+        nhatKy.setQuyTrinh(quyTrinh);
 
         return this.nhatKyService.create(nhatKy);
     }
@@ -234,6 +250,34 @@ public class ServiceHolder {
         thuHoachVaDoanhThu.setUser(userInDB);
 
         return this.thuHoachVaDoanhThuService.create(thuHoachVaDoanhThu);
+    }
+
+    public QuyTrinh createQuyTrinh(Long nhatKyId, QuyTrinh quyTrinh) {
+        NhatKy nhatKyInDB = this.nhatKyService.findById(nhatKyId, quyTrinh.getUser());
+        User userInDB = nhatKyInDB.getUser();
+
+        quyTrinh.setNhatKy(nhatKyInDB);
+        quyTrinh.setUser(userInDB);
+
+        List<CongViec> congViecs = quyTrinh.getCongViecs();
+        if(!CollectionUtils.isEmpty(congViecs)) {
+            for (CongViec congViec : congViecs) {
+                congViec.setQuyTrinh(quyTrinh);
+                congViec.setUser(userInDB);
+            }
+        }
+
+        return this.quyTrinhService.create(quyTrinh);
+    }
+
+    public CongViec createCongViec(Long quyTrinhId, CongViec congViec) {
+        QuyTrinh quyTrinhInDB = this.quyTrinhService.findById(quyTrinhId, congViec.getUser());
+        User userInDB = quyTrinhInDB.getUser();
+
+        congViec.setQuyTrinh(quyTrinhInDB);
+        congViec.setUser(userInDB);
+
+        return this.congViecService.create(congViec);
     }
 
 }

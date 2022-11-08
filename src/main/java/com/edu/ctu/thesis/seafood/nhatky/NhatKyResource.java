@@ -22,6 +22,7 @@ import com.edu.ctu.thesis.seafood.ketquathuhoach.KetQuaThuHoach;
 import com.edu.ctu.thesis.seafood.lantheodoitangtruong.LanTheoDoiTangTruong;
 import com.edu.ctu.thesis.seafood.lanthucanthuoc.LanThucAnThuoc;
 import com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi.MauChatLuongNuocAoNuoi;
+import com.edu.ctu.thesis.seafood.quytrinh.QuyTrinh;
 import com.edu.ctu.thesis.seafood.thagiong.ThaGiong;
 import com.edu.ctu.thesis.seafood.user.User;
 
@@ -163,6 +164,20 @@ public class NhatKyResource {
             return ResponseEntity.status(HttpStatus.CREATED).body(lanThucAnThuocCreated);
         } catch (Exception e) {
             log.error("Cannot create Lan Thuc An thuoc: ", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PostMapping(path = "{id}/quy-trinh")
+    public ResponseEntity<?> createQuyTrinh(@NotNull @PathVariable(value = "id") Long id,
+            @Valid @RequestBody QuyTrinh quyTrinh) {
+        try {
+            log.info("Creating Quy Trinh [{}] of Nhat Ky [{}] ...", quyTrinh.toString(), id);
+            QuyTrinh quyTrinhCreated = this.serviceHolder.createQuyTrinh(id, quyTrinh);
+            log.info("Created Quy Trinh [{}] of Nhat Ky [{}] successfully!", quyTrinhCreated.getId(), id);
+            return ResponseEntity.status(HttpStatus.CREATED).body(quyTrinhCreated);
+        } catch (Exception e) {
+            log.error("Cannot create Quy Trinh: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
