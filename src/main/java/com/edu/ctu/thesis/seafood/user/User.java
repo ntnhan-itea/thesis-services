@@ -82,6 +82,18 @@ public class User implements AuditInterface {
     @Embedded
     private Audit audit;
 
+    public String getTenTraiNuoi() {
+        return this.traiNuoi == null ? "Unknown" : this.traiNuoi.getTenTraiNuoi();
+    }
+
+    public String getDiaChi() {
+        return this.traiNuoi == null ? "Unknown" : this.traiNuoi.getDiaChi();
+    }
+
+    public String getSoDienThoai() {
+        return this.traiNuoi == null ? "Unknown" : this.traiNuoi.getDiaChi();
+    }
+
     public void copy(User user) {
         if (StringUtils.isNotBlank(user.fullName)) {
             this.fullName = user.fullName.trim();
