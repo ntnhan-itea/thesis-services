@@ -5,10 +5,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -52,17 +52,43 @@ public class GlobalExceptionHandler {
         return new ApiError(HttpStatus.NOT_FOUND.value(), e.getMessage(), request.getServletPath());
     }
 
+    @ExceptionHandler(value = { EntityAlreadyExistException.class })
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public ApiError handleEntityAlreadyExistException(EntityAlreadyExistException e, HttpServletRequest request) {
+        String message = "Entity is already exist in Database";
+        if (StringUtils.isNotBlank(e.getMessage())) {
+            message = "Entity [" + e.getMessage() + "] is already exist in Database";
+        }
+
+        return new ApiError(HttpStatus.BAD_REQUEST.value(), message, request.getServletPath());
+    }
+
+    @ExceptionHandler(value = { StringBlankException.class })
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public ApiError handleStringBlankException(StringBlankException e, HttpServletRequest request) {
+        String message = "Value input should not be blank";
+        if (StringUtils.isNotBlank(e.getMessage())) {
+            message = "[" + e.getMessage() + "] input should not be blank";
+        }
+
+        return new ApiError(HttpStatus.BAD_REQUEST.value(), message, request.getServletPath());
+    }
+
     // @ExceptionHandler(value = { HttpRequestMethodNotSupportedException.class })
     // @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    // public ApiError handleHttpRequestMethodNotSupportedException(Exception e, HttpServletRequest request) {
-    //     log.error("Something wrong: ", e);
-    //     return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), request.getServletPath());
+    // public ApiError handleHttpRequestMethodNotSupportedException(Exception e,
+    // HttpServletRequest request) {
+    // log.error("Something wrong: ", e);
+    // return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(),
+    // request.getServletPath());
     // }
 
     // @ExceptionHandler(value = { Exception.class })
     // @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    // public ApiError handleExceptionUnknown(Exception e, HttpServletRequest request) {
-    //     log.error("Something wrong: ", e);
-    //     return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Unknown error!", request.getServletPath());
+    // public ApiError handleExceptionUnknown(Exception e, HttpServletRequest
+    // request) {
+    // log.error("Something wrong: ", e);
+    // return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Unknown
+    // error!", request.getServletPath());
     // }
 }
