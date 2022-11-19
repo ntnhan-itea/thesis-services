@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
         ApiError error = new ApiError(400, request.getServletPath());
         BindingResult bindingResult = exception.getBindingResult();
         // Map<String, String> validationErrors = new HashMap<>();
-        String message = "{";
+        String message = "";
         List<String> messages = new ArrayList<>();
 
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
@@ -36,11 +36,11 @@ public class GlobalExceptionHandler {
 
             messages.add(errorMessage);
 
-            message += errorMessage + "; ";
+            message += errorMessage + ". ";
             log.error(errorField + ": " + errorMessage);
         }
         message = message.trim();
-        message += "}";
+        message += "";
 
         error.setMessage(message);
         error.setMessages(messages);

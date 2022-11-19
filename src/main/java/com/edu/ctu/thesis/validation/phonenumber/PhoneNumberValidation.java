@@ -14,7 +14,7 @@ import javax.validation.Payload;
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Constraint(validatedBy = PhoneNumberValidator.class)
 public @interface PhoneNumberValidation {
-    String message() default "Invalid phone number (Phone number should be 10 digits and start with '0')";
+    String message() default "Phone number should be 10 digits and start with '0'";
 
     Class<?>[] groups() default {};
 
