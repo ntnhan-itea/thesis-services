@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 public class ApiError {
 
-    private int status;
+    private Integer status;
 
     private String message;
 
@@ -26,7 +26,7 @@ public class ApiError {
 
     Map<String, String> validationErrors;
 
-    public ApiError(int status, String message, String path) {
+    public ApiError(Integer status, String message, String path) {
         super();
         this.timestamp = LocalDateTime.now();
         this.status = status;
@@ -34,7 +34,7 @@ public class ApiError {
         this.path = path;
     }
 
-    public ApiError(int status, List<String> messages, String path) {
+    public ApiError(Integer status, List<String> messages, String path) {
         super();
         this.timestamp = LocalDateTime.now();
         this.status = status;
@@ -42,7 +42,7 @@ public class ApiError {
         this.path = path;
     }
 
-    public ApiError(int status, String path) {
+    public ApiError(Integer status, String path) {
         super();
         this.timestamp = LocalDateTime.now();
         this.status = status;

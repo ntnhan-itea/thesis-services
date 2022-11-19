@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -74,21 +75,18 @@ public class GlobalExceptionHandler {
         return new ApiError(HttpStatus.BAD_REQUEST.value(), message, request.getServletPath());
     }
 
-    // @ExceptionHandler(value = { HttpRequestMethodNotSupportedException.class })
-    // @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    // public ApiError handleHttpRequestMethodNotSupportedException(Exception e,
-    // HttpServletRequest request) {
-    // log.error("Something wrong: ", e);
-    // return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(),
-    // request.getServletPath());
-    // }
+    @ExceptionHandler(value = { HttpRequestMethodNotSupportedException.class })
+    @ResponseStatus(code = HttpStatus.METHOD_NOT_ALLOWED)
+    public ApiError handleHttpRequestMethodNotSupportedException(Exception e,
+            HttpServletRequest request) {
+        return new ApiError(HttpStatus.METHOD_NOT_ALLOWED.value(), e.getMessage(),
+                request.getServletPath());
+    }
 
-    // @ExceptionHandler(value = { Exception.class })
-    // @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    // public ApiError handleExceptionUnknown(Exception e, HttpServletRequest
-    // request) {
-    // log.error("Something wrong: ", e);
-    // return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Unknown
-    // error!", request.getServletPath());
-    // }
+    @ExceptionHandler(value = { Exception.class })
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ApiError handleExceptionUnknown(Exception e, HttpServletRequest request) {
+        log.error("Something wrong: ", e);
+        return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Something went wrong!", request.getServletPath());
+    }
 }
