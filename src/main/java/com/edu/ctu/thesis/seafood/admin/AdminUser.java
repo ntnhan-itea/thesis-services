@@ -48,7 +48,7 @@ public class AdminUser extends Validity {
     @Column(name = "full_name")
     private String fullName;
 
-    @PhoneNumberValidation
+    // @PhoneNumberValidation
     @Column(name = "phone_number")
     private String phoneNumber;
 
