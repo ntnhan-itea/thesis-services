@@ -84,15 +84,15 @@ public class UserResource {
 
     @PostMapping(path = "login")
     public ResponseEntity<?> getUser(@Valid @RequestBody User user) {
-        try {
+        // try {
             log.info("Getting user [{}] ...", user.toString());
             User userInDB = this.userService.getUser(user);
             log.info("Got user [{}] successfully!", userInDB.getUsername());
             return ResponseEntity.ok(userInDB);
-        } catch (Exception e) {
-            log.error("Cannot get user: ", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+        // } catch (Exception e) {
+        //     log.error("Cannot get user: ", e);
+        //     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        // }
     }
 
     @GetMapping("/login")

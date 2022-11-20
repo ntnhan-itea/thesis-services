@@ -53,6 +53,12 @@ public class GlobalExceptionHandler {
         return new ApiError(HttpStatus.NOT_FOUND.value(), e.getMessage(), request.getServletPath());
     }
 
+    @ExceptionHandler(value = { InvalidAccountException.class })
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public ApiError handleInvalidAccountException(Exception e, HttpServletRequest request) {
+        return new ApiError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), request.getServletPath());
+    }
+
     @ExceptionHandler(value = { EntityAlreadyExistException.class })
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     public ApiError handleEntityAlreadyExistException(EntityAlreadyExistException e, HttpServletRequest request) {
@@ -87,6 +93,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiError handleExceptionUnknown(Exception e, HttpServletRequest request) {
         log.error("Something wrong: ", e);
-        return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Something went wrong!", request.getServletPath());
+        return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Something went wrong!",
+                request.getServletPath());
     }
 }

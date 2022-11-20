@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.edu.ctu.thesis.exceptions.InvalidAccountException;
 import com.edu.ctu.thesis.seafood.TraiNuoi.TraiNuoi;
 import com.edu.ctu.thesis.util.ThesisUtils;
 
@@ -59,11 +60,11 @@ public class UserService {
 
     private void isValidNewPassword(User user) {
         if (user == null) {
-            throw new IllegalArgumentException(INVALID_ACCOUNT);
+            throw new InvalidAccountException(INVALID_ACCOUNT);
         }
 
         if (StringUtils.isBlank(user.getNewPassword())) {
-            throw new IllegalArgumentException("Invalid new password");
+            throw new InvalidAccountException("Invalid new password");
         }
     }
 
@@ -84,7 +85,7 @@ public class UserService {
 
         User userInDB = this.userRepository.findByAccount(username, password);
         if (Objects.isNull(userInDB)) {
-            throw new IllegalArgumentException(INVALID_ACCOUNT);
+            throw new InvalidAccountException(INVALID_ACCOUNT);
         }
 
         return userInDB;
@@ -105,20 +106,20 @@ public class UserService {
         String passwordInDB = userInDB.getValidPassword();
 
         if (!usernameLogin.equalsIgnoreCase(usernameInDB) || !passwordLogin.equals(passwordInDB)) {
-            throw new IllegalArgumentException(INVALID_ACCOUNT);
+            throw new InvalidAccountException(INVALID_ACCOUNT);
         }
     }
 
     public void checkValidUser(User user) {
         if (user == null) {
-            throw new IllegalArgumentException(INVALID_ACCOUNT);
+            throw new InvalidAccountException(INVALID_ACCOUNT);
         }
 
         String username = user.getUsername();
         String password = user.getPassword();
 
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
-            throw new IllegalArgumentException(INVALID_ACCOUNT);
+            throw new InvalidAccountException(INVALID_ACCOUNT);
         }
     }
 
