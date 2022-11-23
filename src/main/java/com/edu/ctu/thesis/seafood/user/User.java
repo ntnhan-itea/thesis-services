@@ -81,6 +81,7 @@ public class User implements AuditInterface {
     @JsonIgnore
     @Embedded
     private Audit audit;
+    
 
     public String getTenTraiNuoi() {
         return this.traiNuoi == null ? "Unknown" : this.traiNuoi.getTenTraiNuoi();
@@ -91,7 +92,7 @@ public class User implements AuditInterface {
     }
 
     public String getSoDienThoai() {
-        return this.traiNuoi == null ? "Unknown" : this.traiNuoi.getDiaChi();
+        return this.traiNuoi == null ? "Unknown" : this.traiNuoi.getDienThoai();
     }
 
     public void copy(User user) {

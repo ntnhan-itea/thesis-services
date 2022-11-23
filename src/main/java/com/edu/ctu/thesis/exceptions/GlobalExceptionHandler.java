@@ -89,11 +89,11 @@ public class GlobalExceptionHandler {
                 request.getServletPath());
     }
 
-    @ExceptionHandler(value = { Exception.class })
-    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    public ApiError handleExceptionUnknown(Exception e, HttpServletRequest request) {
-        log.error("Something wrong: ", e);
-        return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Something went wrong!",
-                request.getServletPath());
-    }
+    // @ExceptionHandler(value = { Exception.class })
+    // @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    // public ApiError handleExceptionUnknown(Exception e, HttpServletRequest request) {
+    //     log.error("Something wrong: ", e);
+    //     return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Something went wrong!",
+    //             request.getServletPath());
+    // }
 }
