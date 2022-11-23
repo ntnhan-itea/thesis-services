@@ -1,5 +1,7 @@
 package com.edu.ctu.thesis.seafood.TraiNuoi;
 
+import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -9,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -93,6 +96,19 @@ public class TraiNuoiResource {
             return ResponseEntity.ok(traiNuoiInDB);
         } catch (Exception e) {
             log.error("Cannot get trai nuoi: ", e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @GetMapping(path = "get-all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllTraiNuois() {
+        try {
+            log.info("Getting all trai nuoi ...");
+            List<TraiNuoi> traiNuois = this.traiNuoiService.getAllTraiNuoi();
+            log.info("Got all trai nuoi [{}] successfully!", traiNuois.size());
+            return ResponseEntity.ok(traiNuois);
+        } catch (Exception e) {
+            log.error("Cannot get all trai nuoi: ", e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }

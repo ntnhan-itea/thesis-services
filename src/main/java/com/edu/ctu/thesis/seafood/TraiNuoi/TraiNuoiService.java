@@ -82,6 +82,10 @@ public class TraiNuoiService {
         return traiNuoiInDB;
     }
 
+    public List<TraiNuoi> getAllTraiNuoi() {
+        return this.traiNuoiRepository.findAll();
+    }
+
     public TraiNuoi updateVungNuoi(List<VungNuoi> vungNuois) {
         User user = vungNuois.stream()
                 .filter(Objects::nonNull).filter(e -> e.getUser() != null)
