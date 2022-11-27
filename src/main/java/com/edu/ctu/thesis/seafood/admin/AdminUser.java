@@ -8,10 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
+import com.edu.ctu.thesis.util.ThesisUtils;
 import com.edu.ctu.thesis.validation.phonenumber.PhoneNumberValidation;
 import com.edu.ctu.thesis.validity.Validity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -51,6 +54,21 @@ public class AdminUser extends Validity {
     @PhoneNumberValidation
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @JsonIgnore
+    public String getValidUsername() {
+        return StringUtils.isBlank(this.username) ? null : this.username.trim().toLowerCase();
+    }
+
+    @JsonIgnore
+    public String getValidPassword() {
+        return StringUtils.isBlank(this.password) ? null : this.password.trim();
+    }
+
+    @JsonIgnore
+    public String getEncodedPassword() {
+        return StringUtils.isBlank(this.password) ? null : ThesisUtils.encodeBase64(this.password.trim());
+    }
 
 
 }
