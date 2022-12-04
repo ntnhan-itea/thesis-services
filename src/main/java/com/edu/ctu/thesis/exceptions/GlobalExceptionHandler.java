@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
         message += "";
 
         error.setMessage(message);
-        error.setMessages(messages);
+//        error.setMessages(messages);
         return error;
     }
 
