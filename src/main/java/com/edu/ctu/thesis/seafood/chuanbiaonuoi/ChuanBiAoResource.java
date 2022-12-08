@@ -86,7 +86,7 @@ public class ChuanBiAoResource {
             log.info("Creating Thanh Phan Cai Tao [{}] of Chuan Bi Ao [{}] ...", thanhPhanCaiTao.toString(), id);
             ThanhPhanCaiTao thanhPhanCaiTaoCreated = this.serviceHolder.createThanhPhanCaiTao(id, thanhPhanCaiTao);
             log.info("Created Thanh Phan Cai Tao [{}]", thanhPhanCaiTaoCreated.getId());
-            return ResponseEntity.ok(thanhPhanCaiTaoCreated);
+            return ResponseEntity.status(HttpStatus.CREATED).body(thanhPhanCaiTaoCreated);
         } catch (Exception e) {
             log.error("Cannot create Thanh Phan Cai Tao: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

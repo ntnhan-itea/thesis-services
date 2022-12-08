@@ -43,7 +43,7 @@ public class AoNuoiResource {
             log.info("Creating Nhat Ky [{}] of Ao Nuoi [{}] ...", nhatKy.toString(), id);
             NhatKy nhatKyCreated = this.serviceHolder.createNhatKy(id, nhatKy);
             log.info("Created Nhat Ky [{}]", nhatKyCreated.getId());
-            return ResponseEntity.ok(nhatKyCreated);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nhatKyCreated);
         } catch (Exception e) {
             log.error("Cannot create Nhat Ky: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

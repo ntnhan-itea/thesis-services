@@ -85,7 +85,7 @@ public class VungNuoiResource {
             log.info("Creating new Ao Nuoi [{}] ...", aoNuoi.toString());
             AoNuoi aoNuoiCreated = this.serviceHolder.createAoNuoi(id, aoNuoi);
             log.info("Created Ao Nuoi [{}] successfully!", aoNuoiCreated.getTenAo());
-            return ResponseEntity.ok(aoNuoiCreated);
+            return ResponseEntity.status(HttpStatus.CREATED).body(aoNuoiCreated);
         } catch (Exception e) {
             log.error("Cannot create new Ao Nuoi: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

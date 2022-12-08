@@ -44,14 +44,14 @@ public class TraiNuoiResource {
 
     @PostMapping
     @Operation(summary = "Create Trai Nuoi")
-    @ApiResponse(responseCode = "200", description = "Return Trai Nuoi", content = @Content(schema = @Schema(implementation = TraiNuoi.class)))
+    @ApiResponse(responseCode = "201", description = "Return Trai Nuoi", content = @Content(schema = @Schema(implementation = TraiNuoi.class)))
     public ResponseEntity<?> createTraiNuoi(@Valid @RequestBody TraiNuoi traiNuoi) {
         try {
             traiNuoi.setId(null);
             log.info("Creating new trai nuoi [{}] ...", traiNuoi.toString());
             TraiNuoi createdTraiNuoi = this.serviceHolder.createTraiNuoi(traiNuoi);
             log.info("Created new trai nuoi [{}] successfully!", createdTraiNuoi.getId());
-            return ResponseEntity.ok(createdTraiNuoi);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdTraiNuoi);
         } catch (Exception e) {
             log.error("Cannot create new trai nuoi: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -59,10 +59,10 @@ public class TraiNuoiResource {
     }
 
     @DeleteMapping(value = "{id}")
-    public ResponseEntity<?> removeTraiNuoi(@NotNull @PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> removeTraiNuoi(@NotNull @PathVariable(value = "id") Long id,  @Valid @RequestBody User user) {
         try {
             log.info("Removing trai nuoi [{}] ...", id);
-            this.traiNuoiService.remove(id);
+            this.traiNuoiService.remove(id, user);
             log.info("Removed trai nuoi [{}] successfully!", id);
             return ResponseEntity.status(HttpStatus.OK).body("Removed Trai Nuoi [" + id + "] successfully!");
         } catch (Exception e) {
@@ -115,13 +115,13 @@ public class TraiNuoiResource {
 
     @PostMapping(path = "vung-nuoi")
     @Operation(summary = "Create Vung Nuoi")
-    @ApiResponse(responseCode = "200", description = "Return Vung Nuoi", content = @Content(schema = @Schema(implementation = VungNuoi.class)))
+    @ApiResponse(responseCode = "201", description = "Return Vung Nuoi", content = @Content(schema = @Schema(implementation = VungNuoi.class)))
     public ResponseEntity<?> createVungNuoi(@Valid @RequestBody VungNuoi vungNuoi) {
         try {
             log.info("Creating new Vung Nuoi [{}] ...", vungNuoi.toString());
             VungNuoi vungNuoiCreated = this.serviceHolder.createVungNuoi(vungNuoi);
             log.info("Created new Vung Nuoi [{}] successfully!", vungNuoiCreated.getId());
-            return ResponseEntity.ok(vungNuoiCreated);
+            return ResponseEntity.status(HttpStatus.CREATED).body(vungNuoiCreated);
         } catch (Exception e) {
             log.error("Cannot create new Vung Nuoi: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

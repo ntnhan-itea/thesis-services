@@ -75,7 +75,7 @@ public class UserResource {
             log.info("Creating user [{}] ...", user.toString());
             User userInDB = this.userService.createUser(user);
             log.info("Created user [{}] successfully!", userInDB.getUsername());
-            return ResponseEntity.ok(userInDB);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userInDB);
         } catch (Exception e) {
             log.error("Cannot create user: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

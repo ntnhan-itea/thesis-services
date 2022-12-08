@@ -91,7 +91,7 @@ public class NhatKyResource {
             log.info("Creating Chuan Bi Ao Nuoi [{}] of Nhat Ky [{}] ...", chuanBiAoNuoi.toString(), id);
             ChuanBiAoNuoi chuanBiAoNuoiCreated = this.serviceHolder.createChuanBiAoNuoi(id, chuanBiAoNuoi);
             log.info("Created Chuan Bi Ao Nuoi [{}] of Nhat Ky [{}] successfully!", chuanBiAoNuoiCreated.getId(), id);
-            return ResponseEntity.ok(chuanBiAoNuoiCreated);
+            return ResponseEntity.status(HttpStatus.CREATED).body(chuanBiAoNuoiCreated);
         } catch (Exception e) {
             log.error("Cannot create Chuan Bi Ao Nuoi: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -105,7 +105,7 @@ public class NhatKyResource {
             log.info("Creating Tha Giong [{}] of Nhat Ky [{}] ...", thaGiong.toString(), id);
             ThaGiong thaGiongCreated = this.serviceHolder.createThaGiong(id, thaGiong);
             log.info("Created Tha Giong [{}] of Nhat Ky [{}] successfully!", thaGiongCreated.getId(), id);
-            return ResponseEntity.ok(thaGiongCreated);
+            return ResponseEntity.status(HttpStatus.CREATED).body(thaGiongCreated);
         } catch (Exception e) {
             log.error("Cannot create Tha Giong: ", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

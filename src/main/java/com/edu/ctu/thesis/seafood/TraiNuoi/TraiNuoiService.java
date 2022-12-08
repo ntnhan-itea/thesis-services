@@ -55,8 +55,10 @@ public class TraiNuoiService {
         return this.traiNuoiRepository.save(traiNuoiInDB);
     }
 
-    public void remove(Long id) {
+    public void remove(Long id, User user) {
         TraiNuoi traiNuoi = this.findById(id);
+        this.userService.checkLoginSucceed(user, traiNuoi.getUser());
+
         traiNuoi.getUser().setTraiNuoi(null);
         this.traiNuoiRepository.delete(traiNuoi);
     }
