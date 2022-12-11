@@ -31,7 +31,7 @@ public class VungNuoiService {
     public VungNuoi updateVungNuoi(VungNuoi vungNuoi) {
         VungNuoi vungNuoiInDB = this.findById(vungNuoi.getId());
 
-        this.userService.checkLoginSucceed(vungNuoi.getUser(), vungNuoiInDB.getUser());
+        // this.userService.checkLoginSucceed(vungNuoi.getUser(), vungNuoiInDB.getUser());
 
         vungNuoiInDB.copy(vungNuoi);
         return this.save(vungNuoiInDB);
