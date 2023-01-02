@@ -28,6 +28,9 @@ public class FileService {
     public String uploadFie(MultipartFile file) throws IOException {
         FileOutputStream fout = null;
         String filePath = null;
+
+        log.info("middle call upload file");
+
         try {
             filePath = this.convertToUploadUri(file);
             this.checkNotExistFile(filePath);
@@ -36,7 +39,7 @@ public class FileService {
             fout.write(file.getBytes());
         } finally {
             if (fout != null) {
-                fout.close();
+                fout.close(); 
             }
         }
         return filePath;
