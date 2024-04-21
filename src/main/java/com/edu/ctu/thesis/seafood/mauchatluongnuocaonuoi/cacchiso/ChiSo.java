@@ -1,6 +1,6 @@
 package com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi.cacchiso;
 
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.MappedSuperclass;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

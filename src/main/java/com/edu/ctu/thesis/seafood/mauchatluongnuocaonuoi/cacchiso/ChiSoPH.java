@@ -1,6 +1,6 @@
 package com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi.cacchiso;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,9 +10,9 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class ChiSoDO extends ChiSo {
-
-    // public void copy(ChiSoDO entity) {
-    //     super.copy(entity);
+public class ChiSoPH extends ChiSo {
+    
+    // public ChiSoPH(ChiSoPH entity) {
+    //     super(entity);
     // }
 }

@@ -2,8 +2,8 @@ package com.edu.ctu.thesis.audit;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
 import lombok.extern.log4j.Log4j2;
 

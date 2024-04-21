@@ -1,6 +1,6 @@
 package com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi.cacchiso;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

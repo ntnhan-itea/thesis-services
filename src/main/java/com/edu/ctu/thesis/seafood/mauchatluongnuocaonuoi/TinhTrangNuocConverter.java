@@ -3,7 +3,7 @@ package com.edu.ctu.thesis.seafood.mauchatluongnuocaonuoi;
 import java.util.Arrays;
 import java.util.Objects;
 
-import javax.persistence.AttributeConverter;
+import jakarta.persistence.AttributeConverter;
 
 public class TinhTrangNuocConverter implements AttributeConverter<TinhTrangNuoc, Integer> {
 
